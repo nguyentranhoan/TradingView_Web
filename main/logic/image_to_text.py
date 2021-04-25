@@ -1,20 +1,5 @@
 import requests
 
-count_list = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-
-
-def get_key_no():
-    global count_list
-    if count_list[len(count_list)-1] == 45:
-        count_list = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    for key_no in range(len(count_list)):
-        while key_no < len(count_list):
-            if count_list[key_no] >= 45:
-                key_no += 1
-            else:
-                count_list[key_no] += 1
-                return key_no
-
 
 # image has to be accessed online.
 def image_to_text(image_url):
@@ -33,16 +18,28 @@ def image_to_text(image_url):
             '05559aab0amsh4c15eac0ff2f4d2p1ef3dfjsn1af89c0cdb48',
             '544764be9fmsh752065920e265a5p16ea8bjsn5ed7bb2693d7',
             'fe8419972fmsh52bbabe303e2d90p12a194jsn33bfd568025a',
-            '0b14d9cdfemsh33fd4da7551016cp1b8b90jsn5be9eb1eda7a']
-    url = "https://ocrly-image-to-text.p.rapidapi.com/"
-    querystring = {"imageurl": f'{image_url}',
-                   "filename": "sample.jpg"}
+            '0b14d9cdfemsh33fd4da7551016cp1b8b90jsn5be9eb1eda7a',
+            "cd64c648b4msh8a6d48365b0374bp105766jsne7a29e5dfcb4",
+            "0230adc154mshfbc439f7ddde556p17394fjsn0d3957abf5bb",
+            "15c0cdeb68msh84cfd07b34f37f2p1e62c5jsn5d996c57049f",
+            "b0ab8bf78bmshe29b4cc002d61b8p1f75e3jsnf7891e706414",
+            "a90c0d3cc6mshd6b13374e81ca6dp10eee5jsnb3da9d892f76",
+            "7a07324785mshd7629a8c8efe4f4p19062ajsn4a1826f8e863",
+            "6627d1e7admshc18328b7979defdp16b966jsn4251afccb2be",
+            "bdd6d36efamshd8646144399328dp18c730jsnc5719af5f850",
+            "d85a671a1amshb80d6d19bb58cbdp119cd8jsnca4c8dc4e36d",
+            "fdc37b4e6cmsh441f7cb1ecb529ep19d62bjsnc0789ed68ae7"]
+    for i in range(len(keys)):
+        url = "https://ocrly-image-to-text.p.rapidapi.com/"
+        querystring = {"imageurl": f'{image_url}',
+                       "filename": "sample.jpg"}
+        headers = {
+            'x-rapidapi-key': keys[i],
+            'x-rapidapi-host': "ocrly-image-to-text.p.rapidapi.com"
+        }
 
-    headers = {
-        'x-rapidapi-key': keys[get_key_no()],
-        'x-rapidapi-host': "ocrly-image-to-text.p.rapidapi.com"
-    }
-
-    response = requests.request("GET", url, headers=headers, params=querystring)
-
-    return response.text
+        response = requests.request("GET", url, headers=headers, params=querystring)
+        if response.status_code > 200:
+            continue
+        else:
+            return response.text
