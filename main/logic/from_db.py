@@ -2,36 +2,39 @@ from main.logic.transaction_data import get_transaction_data
 
 
 def get_data_from_db(conn):
-    cur = conn.cursor()
-    years = cur.execute("SELECT DISTINCT year FROM tradingview_data GROUP BY year ORDER BY year ASC").fetchall()
-    yearly_list = []
-    for year in years:
-        monthly_list = []
-        yearly_data = {'year': year[0], 'months': monthly_list}
-        for month in cur.execute(
-                "SELECT DISTINCT month FROM tradingview_data WHERE year=? GROUP BY month ORDER BY month ASC",
-                year).fetchall():
-            daily_list = []
-            monthly_data = {'month': month[0], 'days': daily_list}
-            monthly_list.append(monthly_data)
-            for day in cur.execute(
-                    "SELECT DISTINCT day FROM tradingview_data WHERE month=? GROUP BY day ORDER BY day ASC",
-                    month).fetchall():
-                transaction_list = []
-                daily_data = {'day': day[0], 'transactions': transaction_list}
-                daily_list.append(daily_data)
-                for data in cur.execute("SELECT * FROM tradingview_data WHERE day=?", day).fetchall():
-                    transaction_data = {'TIME': data[4],
-                                        'PAIR': data[5],
-                                        'POSITION': data[6],
-                                        '1HR CHART': data[7],
-                                        '15MIN CHART': data[8],
-                                        'PROFIT R': data[9],
-                                        'COMMENTS': data[10]
-                                        }
-                    transaction_list.append(transaction_data)
-        yearly_list.append(yearly_data)
-    return yearly_list
+   cur = conn.cursor()
+   years = cur.execute("SELECT DISTINCT year FROM tradingview_data GROUP BY year ORDER BY year ASC").fetchall()
+   yearly_list = []
+   for year in years:
+      monthly_list = []
+      yearly_data = {'year': year[0], 'months': monthly_list}
+      months = cur.execute(
+               "SELECT DISTINCT month FROM tradingview_data WHERE year=? GROUP BY month ORDER BY month ASC",
+               year).fetchall()
+      for month in months:
+         daily_list = []
+         monthly_data = {'month': month[0], 'days': daily_list}
+         monthly_list.append(monthly_data)
+         days = cur.execute(
+                  "SELECT DISTINCT day FROM tradingview_data WHERE month=? GROUP BY day ORDER BY day ASC",
+                  month).fetchall()
+         for day in days:
+               transaction_list = []
+               daily_data = {'day': day[0], 'transactions': transaction_list}
+               daily_list.append(daily_data)
+               transactions = cur.execute("SELECT * FROM tradingview_data WHERE month=? AND day=?", (month[0],day[0])).fetchall()
+               for data in transactions:
+                  transaction_data = {'TIME': data[4],
+                                       'PAIR': data[5],
+                                       'POSITION': data[6],
+                                       '1HR CHART': data[7],
+                                       '15MIN CHART': data[8],
+                                       'PROFIT R': data[9],
+                                       'COMMENTS': data[10]
+                                       }
+                  transaction_list.append(transaction_data)
+      yearly_list.append(yearly_data)
+   return yearly_list
 
 
 def store_data_db(conn, data):
