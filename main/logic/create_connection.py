@@ -34,7 +34,10 @@ def create_table(conn, create_table_sql):
 
 
 def create_database(conn):
-    sql_create_tradingview_table = """ CREATE TABLE IF NOT EXISTS tradingview_data (
+    # alter table --> update table name to momentum
+
+    # code should be implemented right here
+    sql_create_momentum_table = """ CREATE TABLE IF NOT EXISTS momentum (
                                         date DATE,
                                         year INTEGER,
                                         month INTEGER,
@@ -47,6 +50,35 @@ def create_database(conn):
                                         profit_r FLOAT, 
                                         comments TEXT); """
 
+    sql_create_harmonic_table = """ CREATE TABLE IF NOT EXISTS harmonic (
+                                        date DATE,
+                                        year INTEGER,
+                                        month INTEGER,
+                                        day INTEGER, 
+                                        time CHAR(50), 
+                                        pair TEXT, 
+                                        position TEXT, 
+                                        one_hr_chart TEXT, 
+                                        one_day_chart TEXT, 
+                                        profit_r FLOAT, 
+                                        comments TEXT); """
+
+    sql_create_swing_trading_table = """ CREATE TABLE IF NOT EXISTS swing_trading (
+                                        date DATE,
+                                        year INTEGER,
+                                        month INTEGER,
+                                        day INTEGER, 
+                                        time CHAR(50), 
+                                        pair TEXT, 
+                                        position TEXT, 
+                                        four_hr_chart TEXT,
+                                        pre_four_hr_chart TEXT,
+                                        one_day_chart TEXT, 
+                                        one_week_chart TEXT, 
+                                        one_month_chart TEXT,
+                                        profit_r FLOAT, 
+                                        comments TEXT); """
+
     # create a database connection
     # database_url = '../.data/transaction.db'
     # conn = create_connection(database_url)
@@ -54,7 +86,9 @@ def create_database(conn):
     # create tables
     if conn is not None:
         # create projects table
-        create_table(conn, sql_create_tradingview_table)
+        create_table(conn, sql_create_momentum_table)
+        create_table(conn, sql_create_harmonic_table)
+        create_table(conn, sql_create_swing_trading_table)
     else:
         print("Error! cannot create the database connection.")
 

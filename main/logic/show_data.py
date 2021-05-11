@@ -3,14 +3,14 @@ import shutil
 
 import xlsxwriter
 
-from main.logic.from_db import get_data_from_db
+from main.logic.strategy import get_strategy_data_from_db
 
 
-def write_data_to_excel(conn):
-    yearly_list = get_data_from_db(conn)
+def write_data_to_excel(conn, table_name):
+    yearly_list = get_strategy_data_from_db(conn, table_name)
 
     for i in range(len(yearly_list)):
-        wbn = f"main/.data/[{yearly_list[i]['year']}]" + "[HuyNguyen]-TradingView" + ".xlsx"
+        wbn = f".data/[{yearly_list[i]['year']}]" + "[HuyNguyen]-TradingView" + ".xlsx"
         workbook_name = xlsxwriter.Workbook(filename=wbn)
         cell_format = workbook_name.add_format({
             'border': 1,
@@ -32,6 +32,7 @@ def write_data_to_excel(conn):
                          '15MIN CHART',
                          'PROFIT R',
                          'COMMENTS',
+                         'ID',
                          'SUM']
             worksheet_name.write_row(0, 0, row_names, cell_format)
             for k in range(len(yearly_list[i]["months"][j]["days"])):
@@ -49,18 +50,19 @@ def write_data_to_excel(conn):
                             yearly_list[i]["months"][j]["days"][k]["transactions"][h]['1HR CHART'],
                             yearly_list[i]["months"][j]["days"][k]["transactions"][h]['15MIN CHART'],
                             yearly_list[i]["months"][j]["days"][k]["transactions"][h]['PROFIT R'],
-                            yearly_list[i]["months"][j]["days"][k]["transactions"][h]['COMMENTS']
+                            yearly_list[i]["months"][j]["days"][k]["transactions"][h]['COMMENTS'],
+                            yearly_list[i]["months"][j]["days"][k]["transactions"][h]['INDEX']
                             ]
                     row_num += 1
                     worksheet_name.write_row(row_num, 1, data, cell_format)
                 if merge_start == merge_stop:
-                    worksheet_name.write(f'I{merge_start}', s, cell_format)
+                    worksheet_name.write(f'J{merge_start}', s, cell_format)
                 else:
                     worksheet_name.merge_range(f'A{merge_start}:A{merge_stop}',
                                                f'{row_day[0]}',
                                                cell_format)
-                    worksheet_name.merge_range(f'I{merge_start}:I{merge_stop}',
-                                               f'=SUM(G{merge_start}:g{merge_stop})',
+                    worksheet_name.merge_range(f'J{merge_start}:J{merge_stop}',
+                                               f'=SUM(G{merge_start}:G{merge_stop})',
                                                cell_format)
         workbook_name.close()
         print('done')

@@ -1,9 +1,8 @@
-# https://symbol-search.tradingview.com/symbol_search/?text=BTCUSD&hl=1&exchange=&lang=en&type=&domain=production
 import datetime
 import re
 
 from main.logic.image_to_text import image_to_text
-from main.logic.up_down_dropbox import get_image_url
+from main.logic.from_dropbox import get_image_url
 
 
 def get_datetime(message):
@@ -89,8 +88,8 @@ def from_trading_view(image_url):
     return get_pair(message)
 
 
-def from_screenshot():
-    image_url = get_image_url()
+def from_screenshot(strategy_name):
+    image_url = get_image_url(strategy_name)
     message = image_to_text(image_url)
     print("message: ", message)
 #     message = """
@@ -196,3 +195,30 @@ def from_screenshot():
     return get_datetime(message), \
            get_ratio(message), \
            get_position(message)
+
+
+def get_transaction_data(strategy_name, data):
+    transaction_datetime, transaction_ratio, transaction_position = from_screenshot(strategy_name)
+    print(data)
+    if int(data['profitR']) == -1:
+        transaction_ratio = -1
+    elif int(data["profitR"]) == 0:
+        transaction_ratio = 0
+    else:
+        transaction_ratio = transaction_ratio
+        # attention please alter data['link']
+    transaction_pair = from_trading_view(image_url=data['link15Min'])
+    time = f"{transaction_datetime.hour}:{transaction_datetime.minute}"
+    transaction_data = {'DATE': transaction_datetime.date(),
+                        'YEAR': transaction_datetime.year,
+                        'MONTH': transaction_datetime.month,
+                        'DAY': transaction_datetime.day,
+                        'TIME': time,
+                        'PAIR': transaction_pair,
+                        'POSITION': transaction_position,
+                        '1HR CHART': data['link1Hour'],
+                        '15MIN CHART': data['link15Min'],
+                        'PROFIT R': transaction_ratio,
+                        'COMMENTS': data['comment']}
+    print(transaction_data)
+    return transaction_data
