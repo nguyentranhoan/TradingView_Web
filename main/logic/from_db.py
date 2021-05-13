@@ -1,56 +1,20 @@
 from main.logic.data_from_img import get_transaction_data
 
 
-def get_data_from_db(conn, table_name):
+def store_data_db(conn, table_name, data):
+    transaction_data = get_transaction_data(table_name, data)
     cur = conn.cursor()
-    years = cur.execute(f"SELECT DISTINCT year FROM {table_name} GROUP BY year ORDER BY year ASC").fetchall()
-    yearly_list = []
-    for year in years:
-        monthly_list = []
-        yearly_data = {'year': year[0], 'months': monthly_list}
-        months = cur.execute(
-            f"SELECT DISTINCT month FROM {table_name} WHERE year=? GROUP BY month ORDER BY month ASC",
-            year).fetchall()
-        for month in months:
-            daily_list = []
-            monthly_data = {'month': month[0], 'days': daily_list}
-            monthly_list.append(monthly_data)
-            days = cur.execute(
-                f"SELECT DISTINCT day FROM {table_name} WHERE month=? GROUP BY day ORDER BY day ASC",
-                month).fetchall()
-            for day in days:
-                transaction_list = []
-                daily_data = {'day': day[0], 'transactions': transaction_list}
-                daily_list.append(daily_data)
-                transactions = cur.execute("SELECT "
-                                           "rowid, "
-                                           "date, "
-                                           "year, "
-                                           "month, "
-                                           "day, "
-                                           "time, "
-                                           "pair, "
-                                           "position, "
-                                           "one_hr_chart, "
-                                           "fifteen_min_chart, "
-                                           "profit_r, "
-                                           "comments "
-                                           f"FROM {table_name} WHERE year=? AND month=? AND day=?",
-                                           (year[0], month[0], day[0])).fetchall()
-                for data in transactions:
-                    print(data)
-                    transaction_data = {"INDEX": data[0],
-                                        'TIME': data[5],
-                                        'PAIR': data[6],
-                                        'POSITION': data[7],
-                                        '1HR CHART': data[8],
-                                        '15MIN CHART': data[9],
-                                        'PROFIT R': data[10],
-                                        'COMMENTS': data[11]
-                                        }
-                    transaction_list.append(transaction_data)
-        yearly_list.append(yearly_data)
-    return yearly_list
+    comments = f"{transaction_data['COMMENTS']}"
+    comment = alter_comment(comments)
+    transaction = check_existed_transaction(cur, table_name, transaction_data)
+    if transaction is not None:
+        update_query = update_data(table_name, transaction_data,
+                                   transaction, comment)
+        cur.execute(update_query)
+    else:
+        insert_query = insert_data(table_name, transaction_data, comments)
+        cur.execute(insert_query)
+    conn.commit()
 
 
 def transaction_by_id(conn, table_name, transaction_id):
@@ -70,23 +34,6 @@ def update_transaction_by_id(conn, table_name, transaction_id, profit_r, comment
 
 def delete_transaction_by_id(conn, table_name, transaction_id):
     conn.cursor().execute(f"DELETE FROM {table_name} WHERE rowid={transaction_id};")
-    conn.commit()
-
-
-def store_data_db(conn, table_name, data):
-    transaction_data = get_transaction_data(table_name, data)
-    print(data)
-    cur = conn.cursor()
-    comments = f"{transaction_data['COMMENTS']}"
-    comment = alter_comment(comments)
-    transaction = check_existed_transaction(cur, table_name, transaction_data)
-    if transaction is not None:
-        update_query = update_data(table_name, transaction_data,
-                                   transaction, comment)
-        cur.execute(update_query)
-    else:
-        insert_query = insert_data(table_name, transaction_data, comments)
-        cur.execute(insert_query)
     conn.commit()
 
 
@@ -111,16 +58,18 @@ def check_existed_transaction(cur, table_name, transaction_data):
 
 
 def update_data(table_name, transaction_data, transaction, comments):
+    comment = alter_comment(comments)
     query = f"""UPDATE {table_name} SET
-                    comments='{comments}',
+                    comments='{comment}',
                     position='{transaction_data['POSITION']}',
                     profit_r={transaction_data['PROFIT R']}
-                WHERE rowid={transaction[0]}'"""
+                WHERE rowid={transaction[0]}"""
+    print(query)
     return query
 
 
 def insert_data(table_name, transaction_data, comments):
-    if table_name == "":
+    if table_name == "momentum":
         query = f"""INSERT INTO {table_name} VALUES (
                         {transaction_data['DATE']},
                         {transaction_data['YEAR']},
@@ -134,7 +83,7 @@ def insert_data(table_name, transaction_data, comments):
                         {transaction_data['PROFIT R']},
                         '{comments}');"""
         return query
-    elif table_name == "":
+    elif table_name == "harmonic":
         query = f"""INSERT INTO {table_name} VALUES (
                         {transaction_data['DATE']},
                         {transaction_data['YEAR']},
@@ -148,7 +97,7 @@ def insert_data(table_name, transaction_data, comments):
                         {transaction_data['PROFIT R']},
                         '{comments}');"""
         return query
-    else:
+    elif table_name == "swing_trading":
         query = f"""INSERT INTO {table_name} VALUES (
                         {transaction_data['DATE']},
                         {transaction_data['YEAR']},

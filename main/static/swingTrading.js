@@ -7,7 +7,7 @@ let profit_R;
 let screen_no;
 let link_4_hours =  document.querySelector('#link4Hours');
 
-link_4_hours.onchange = takeAScreenshot;
+link_4_hours.onfocus = takeAScreenshot;
 
 submit_button.onclick = submit;
 
@@ -83,20 +83,20 @@ function submit() {
     request.send(data);
         }
 
-        function resetAll(strategy_name) {
+        function resetAll() {
             document.querySelector("#another").checked = true;
             link_4_hours.value = '';
             document.querySelector("#linkPre4Hours").value = '';
             document.querySelector("#link1Day").value = '';
             document.querySelector("#link1Week").value = '';
-            document.querySelector("#linkPre1Month").value = '';
-            main.comment.value = '';
+            document.querySelector("#link1Month").value = '';
+            comment.value = '';
         }
         
-        function getDataInput(strategy_name) {
-            let dataInput = {
-                "link4Hours": link_15_mins.value,
-                "linkPre4Hours": document.querySelector('#link1Hour').value,
+        function getDataInput() {
+            var dataInput = {
+                "link4Hours": link_4_hours.value,
+                "linkPre4Hours": document.querySelector('#linkPre4Hours').value,
                 "link1Day": document.querySelector('#link1Day').value,
                 "link1Week": document.querySelector('#link1Week').value,
                 "link1Month": document.querySelector('#link1Month').value,

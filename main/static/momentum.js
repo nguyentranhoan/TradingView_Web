@@ -7,7 +7,7 @@ let profit_R;
 let screen_no;
 let link_15_mins =  document.querySelector('#link15Mins');
 
-link_15_mins.onchange = takeAScreenshot;
+link_15_mins.onfocus = takeAScreenshot;
 
 submit_button.onclick = submit;
 preview_button.onclick = preview;
@@ -84,13 +84,13 @@ function submit() {
 
     function resetAll() {
         document.querySelector("#another").checked = true;
-        link_15_Min.value = '';
-        link_1_hour.value = '';
+        link_15_mins.value = '';
+        document.querySelector('#link1Hour').value = '';
         comment.value = '';
     }
     
     function getDataInput() {
-        let dataInput = {
+        var dataInput = {
             "link15Mins": link_15_mins.value,
             "link1Hour": document.querySelector('#link1Hour').value,
             "profitR": profit_R,

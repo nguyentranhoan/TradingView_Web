@@ -8,7 +8,7 @@ let screen_no;
 
 let link_1_hour =  document.querySelector('#link1Hour');
 
-link_1_hour.onchange = takeAScreenshot;
+link_1_hour.onfocus = takeAScreenshot;
 
 submit_button.onclick = submit;
 
@@ -93,8 +93,8 @@ function submit() {
 
         function getDataInput(strategy_name) {
             let dataInput = {
-                "link15Mins": link_15_mins.value,
-                "link1Hour": document.querySelector('#link1Hour').value,
+                "link1Hour": link_1_hour.value,
+                "link1Day": document.querySelector('#link1Day').value,
                 "profitR": profit_R,
                 "comment": comment.value
             }

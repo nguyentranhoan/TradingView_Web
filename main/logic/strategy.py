@@ -1,4 +1,3 @@
-import datetime
 import os
 import shutil
 
@@ -17,7 +16,7 @@ def write_data(conn, strategy_name):
     yearly_list = get_strategy_data_from_db(conn=conn, strategy_name=strategy_name)
     print(yearly_list)
     for i in range(len(yearly_list)):
-        wbn = f".data/{strategy_name}/[{yearly_list[i]['year']}]" + "[HuyNguyen]-TradingView" + ".xlsx"
+        wbn = f"main/.data/{strategy_name}/[{yearly_list[i]['year']}]" + "[HuyNguyen]-TradingView" + ".xlsx"
         workbook_name = xlsxwriter.Workbook(filename=wbn)
         cell_format = workbook_name.add_format({
             'border': 1,
