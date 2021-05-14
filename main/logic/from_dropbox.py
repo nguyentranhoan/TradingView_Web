@@ -13,7 +13,7 @@ def get_access():
 def upload_image(dbx, strategy_name):
     # dbx = from_dropbox()
     file_from = f'main/static/images/{strategy_name}.png'  # local file path
-    file_to = '/TradingViewStorage/screenshot.png'      # dropbox path
+    file_to = f'/TradingViewStorage/{strategy_name}.png'      # dropbox path
     f = open(file_from, 'rb')
     dbx.files_upload(f.read(), file_to, mode=files.WriteMode.overwrite)
 
@@ -21,7 +21,7 @@ def upload_image(dbx, strategy_name):
 def get_image_url(strategy_name):
     dbx = get_access()
     upload_image(dbx, strategy_name)
-    tem = dbx.files_get_temporary_link('/TradingViewStorage/screenshot.png')
+    tem = dbx.files_get_temporary_link(f'/TradingViewStorage/{strategy_name}.png')
     return tem.link
 
 
