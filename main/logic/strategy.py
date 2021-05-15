@@ -51,12 +51,12 @@ def write_data(conn, strategy_name):
 
 
 def open_report_file():
-    os.system(f"open 'main/report/'")
+    os.system(f"open 'main/report'")
 
 
 def create_report(strategy_name):
     src = f"main/.data/{strategy_name}/"
-    dst = f'main/report/{strategy_name}'
+    dst = f'main/report/{strategy_name}/'
     for filename in os.listdir(src):
         shutil.copy(src+filename, dst)
 
@@ -120,8 +120,8 @@ def make_sum_row(strategy_name, worksheet_name, merge_start,
                  merge_stop, value, cell_format, row_day):
     if strategy_name == "swing_trading":
         # set column width
-        worksheet_name.set_column('E:H', 35)
-        worksheet_name.set_column('J:J', 30)
+        worksheet_name.set_column('E:I', 35)
+        worksheet_name.set_column('K:K', 30)
         if merge_start == merge_stop:
             worksheet_name.write(f'M{merge_start}', value, cell_format)
         else:

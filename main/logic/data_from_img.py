@@ -42,82 +42,14 @@ def get_position(message):
 
 
 def from_trading_view(image_url):
-    # message = f"""{image_to_text(image_url)}"""
-    message = """FX:GPBUSD"""
+    message = f"""{image_to_text(image_url)}"""
     return get_pair(message)
 
 
 def from_screenshot(strategy_name):
-    # image_url = get_image_url(strategy_name)
-    # message = image_to_text(image_url)
-    # print(message)
-    message = """GBPUSD
-15m
-+ Compare
-fr Indicators
-l Financials
-M Templates Q Alert
-14 Replay
-O Unnamed
-Publish<br />
-British Pound / U.S. Dollar · 15 · FXCM K<br />
-01.41015 H1.41119 L1.40995 C1.41075 +0.00060 (+0.04%)<br />
-1. USDO
-T
-1.41077 0.0 1.41077
-www
-1.41700
-Vol 3.086K
-1.41600
-1.41500
-T<br />
-Target: 0.00275 (0.19%) 27.5, Amount: 1577.73<br />
--1.41416
-1.41316
-1.41200<br />
-Closed P&L: 0.00275, Qty: 210084<br />
-Risk/Reward Ratio: 2.31
-- 1.41141
-1 41100
-1.41075
-06:44
--1.41022<br />
-Stop: 0.00119 (0.08%) 11.9, Amount: 750<br />
-1.40900
-1.40800
-1.40700
-1.40600
-1.40500
-1.40400
-1.40300<br />
-Unlock the full power of TradingView<br />
-1.40200<br />
-Try any plan free for 30 days. We'll help you<br />
-trade and invest better from the get-go.<br />
-1.40100
-30-day free trial
-1.40000
-1:00
-06:00
-09:00
-12:00
-11 May "21 13:30 15:00
-18:00
-21:00
-12
-03:00
-06:00
-09:00
-12:00<br />
-1D 5D 1M 3M 6M YTD 1Y 5Y All<br />
-21:23:16 (UTC+7)
-% log auto
-Stock Screener
-Text Notes
-Pine Editor
-Strategy Tester
-Trading Panel
-"""
+    image_url = get_image_url(strategy_name)
+    message = image_to_text(image_url)
+    print(message)
     return get_datetime(message), \
            get_ratio(message), \
            get_position(message)

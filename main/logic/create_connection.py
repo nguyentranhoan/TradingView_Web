@@ -79,10 +79,6 @@ def create_database(conn):
                                         profit_r FLOAT, 
                                         comments TEXT); """
 
-    # create a database connection
-    # database_url = '../.data/transaction.db'
-    # conn = create_connection(database_url)
-
     # create tables
     if conn is not None:
         # create projects table
@@ -91,8 +87,3 @@ def create_database(conn):
         create_table(conn, sql_create_swing_trading_table)
     else:
         print("Error! cannot create the database connection.")
-
-
-# if __name__ == '__main__':
-#     conn = create_connection()
-#     print(conn)
