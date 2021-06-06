@@ -8,7 +8,10 @@ from main.logic.from_dropbox import get_image_url
 def get_datetime(message):
     pattern_time = r"""\S\d\s[a-zA-Z]+\s('|"?)\d+\s\d+(:)\d+"""
     tem = re.search(pattern_time, message)
-    date_time_str = str(tem.group(0))
+    try:
+        date_time_str = str(tem.group(0))
+    except AttributeError as e:
+        return e
     date_time_str = get_datetime_str(date_time_str)
     date_time = datetime.datetime.strptime(date_time_str, '%d %b %y %H:%M')
     return date_time
@@ -17,7 +20,10 @@ def get_datetime(message):
 def get_pair(message):
     pattern_pair = r'[a-zA-Z]+:[a-zA-Z]+'
     pair = re.search(pattern_pair, message)
-    symbol = pair.group(0)
+    try:
+        symbol = pair.group(0)
+    except AttributeError as e:
+        return e
     symbol = re.sub(r'[a-zA-Z]+(:)', '', symbol)
     return symbol
 
@@ -25,7 +31,10 @@ def get_pair(message):
 def get_ratio(message):
     pattern_profit_r = r'R.+R.+R.+:.+'
     r = re.search(pattern_profit_r, message)
-    rr = re.search(r'\d+(.?)\d+', r.group(0))
+    try:
+        rr = re.search(r'\d+(.?)(\d{0,5}?)', r.group(0))
+    except AttributeError as e:
+        return e
     return float(rr.group(0))
 
 

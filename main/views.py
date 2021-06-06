@@ -1,7 +1,7 @@
 from flask import render_template, request, jsonify, abort
 from main import app
 
-from main.logic.strategy import submit_strategy, open_report_file
+from main.logic.strategy import submit_strategy, open_report_file, update_report_after_alter_data
 from main.logic.from_db import transaction_by_id, update_transaction_by_id, delete_transaction_by_id
 
 from main.logic.screenshot import preview_screenshot, take_a_screenshot
@@ -87,6 +87,7 @@ def update_transaction():
     data = request.get_json()
     update_transaction_by_id(conn, data["strategyName"], int(data["transactionID"]), data["newProfitR"],
                              data["newComment"])
+    update_report_after_alter_data(conn, data["strategyName"])
     return "ok"
 
 
@@ -94,4 +95,5 @@ def update_transaction():
 def delete_transaction():
     data = request.get_json()
     delete_transaction_by_id(conn, data["strategyName"], int(data["transactionID"]))
+    update_report_after_alter_data(conn, data["strategyName"])
     return "ok"

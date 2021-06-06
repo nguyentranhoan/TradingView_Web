@@ -37,18 +37,20 @@ function searchTransactionByID() {
             transaction_position.value = responseData["position"];
             transaction_pair.value = responseData["pair"];
             delete_button.disabled = false;
+            comment.disabled = false;
+            update_button.disabled = false;
         }
-//        else if (request.status === 404) {
-//            // clear all fields
-//            alert("Transaction not found!");
-////            transaction_pair.value = '';
-////            transaction_position.value = '';
-////            comment.value = '';
-////            profit_r.value = null;
-////            transaction_date.value = '';
-////            document.querySelector("#momentum").checked = true;
-////            delete_button.disabled= true;
-//        }
+        else{
+            // clear all fields
+            transaction_pair.value = '';
+            transaction_position.value = '';
+            comment.value = 'Not found. Please check again';
+            comment.disabled = true;
+            update_button.disabled = true;
+            delete_button.disabled = true;
+            profit_r.value = null;
+            transaction_date.value = '';
+        }
 //        else {
 //        }
     }

@@ -75,7 +75,14 @@ function submit() {
     
     request.open('POST', '/submit/'+strategy_name.textContent, true);
     request.setRequestHeader("Content-Type", "application/json");
-    request.onreadystatechange = resetAll();
+    request.onreadystatechange = function() {
+        if(request.readyState === 4 && request.status === 200){
+            resetAll();
+        }
+        else{
+            link_4_hours.value = 'Please check edit the screenshot and update this link. Something went wrong!';
+        }
+    }
     // Add data to send with request
     let data = JSON.stringify(dataInput);
 
