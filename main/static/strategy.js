@@ -22,7 +22,7 @@ function takeAScreenshot() {
     // Initialize new request
     let request = new XMLHttpRequest();
     var dataInput = {
-        screenNo: screen_no
+        'screen_num': screen_no
     }
     request.open('POST', '/screenshot/'+strategy_name.value, true);
     request.setRequestHeader("Content-Type", "application/json");
