@@ -40,7 +40,7 @@ function takeAScreenshot() {
 
 function preview() {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/preview/'+strategy_name.textContent, true);
+    xhr.open('GET', '/screenshot/'+strategy_name.textContent, true);
 
     xhr.onload = function () {
       // Request finished. Do processing here.
@@ -73,7 +73,7 @@ function submit() {
     let request = new XMLHttpRequest();
     var dataInput = getDataInput();
     
-    request.open('POST', '/submit/'+strategy_name.textContent, true);
+    request.open('POST', '/'+strategy_name.textContent+'/submit', true);
     request.setRequestHeader("Content-Type", "application/json");
     request.onreadystatechange = function() {
         if(request.readyState === 4 && request.status === 200){
@@ -112,3 +112,4 @@ function submit() {
             }
             return dataInput;
         }
+

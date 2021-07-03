@@ -1,29 +1,38 @@
-from __future__ import print_function
+# from_dropbox.py
 
+from __future__ import print_function
+import os
 import dropbox
 from dropbox import files
+from main import LOCAL_IMAGE_ROOT_PATH
+
+DROPBOX_TradingViewStorage_ROOT_PATH = "/TradingViewStorage"
 
 
-def get_access():
-    access_token = '70JPeRBX8PcAAAAAAAAAAQ_xIdqzwa9G3w2Wt7Ub0CzwU4rk7e1rIxvPWVPM7Om0'
-    dbx = dropbox.Dropbox(access_token)
-    return dbx
+class DropBox:
+    """
+    This class is used to retrieve an image's url from dropbox.
+    The image is the screenshot of a transaction.
+    """
 
+    @staticmethod
+    def __get_access():
+        access_token = os.environ.get('DROPBOX_ACCESS_KEY')
+        dbx = dropbox.Dropbox(access_token)
+        return dbx
 
-def upload_image(dbx, strategy_name):
-    # dbx = from_dropbox()
-    file_from = f'main/static/images/{strategy_name}.png'  # local file path
-    file_to = f'/TradingViewStorage/{strategy_name}.png'      # dropbox path
-    f = open(file_from, 'rb')
-    dbx.files_upload(f.read(), file_to, mode=files.WriteMode.overwrite)
+    @staticmethod
+    def __upload_image(dbx, strategy_name):
+        file_from = LOCAL_IMAGE_ROOT_PATH + f'/{strategy_name}.png'  # local file path
+        file_to = DROPBOX_TradingViewStorage_ROOT_PATH + f'/{strategy_name}.png'  # dropbox path
+        f = open(file_from, 'rb')
+        dbx.files_upload(f.read(), file_to, mode=files.WriteMode.overwrite)
 
+    @classmethod
+    def get_image_url(cls, strategy_name):
+        dbx = cls.__get_access()
+        cls.__upload_image(dbx, strategy_name)
+        tem = dbx.files_get_temporary_link(DROPBOX_TradingViewStorage_ROOT_PATH + f'/{strategy_name}.png')
+        return tem.link
 
-def get_image_url(strategy_name):
-    dbx = get_access()
-    upload_image(dbx, strategy_name)
-    tem = dbx.files_get_temporary_link(f'/TradingViewStorage/{strategy_name}.png')
-    return tem.link
-
-
-# if __name__ == '__main__':
-#     print(get_image_url())
+    # end of file

@@ -6,6 +6,14 @@
       <sourceFolder url="file://$MODULE_DIR$/playground" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/main" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/venv" />
+      <excludeFolder url="file://$MODULE_DIR$/main/.data/byPair/harmonic" />
+      <excludeFolder url="file://$MODULE_DIR$/main/.data/harmonic" />
+      <excludeFolder url="file://$MODULE_DIR$/main/.data/momentum" />
+      <excludeFolder url="file://$MODULE_DIR$/main/report/byPair" />
+      <excludeFolder url="file://$MODULE_DIR$/main/report/harmonic" />
+      <excludeFolder url="file://$MODULE_DIR$/main/.data/swing_trading" />
+      <excludeFolder url="file://$MODULE_DIR$/main/report/momentum" />
+      <excludeFolder url="file://$MODULE_DIR$/main/report/swing_trading" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

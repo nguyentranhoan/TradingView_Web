@@ -26,33 +26,31 @@ function searchTransactionByID() {
     }
     let id = transaction_id.value;
     let request = new XMLHttpRequest();
-    request.open('GET', '/search/'+strategy_name+'/'+id, true);
+    request.open('GET', '/'+strategy_name+'/'+id, true);
     request.response = 'text/json';
     request.onreadystatechange = function () {
         if(request.readyState === 4 && request.status === 200){
             let responseData = JSON.parse(request.response);
-            profit_r.value = responseData['profitR'];
-            comment.value = responseData['comment']
-            transaction_date.value = responseData["dateTime"];
+            profit_r.value = responseData['profit_r'];
+            comment.value = responseData['comments']
+            transaction_date.value = responseData["datetime"];
             transaction_position.value = responseData["position"];
             transaction_pair.value = responseData["pair"];
             delete_button.disabled = false;
             comment.disabled = false;
             update_button.disabled = false;
         }
-        else{
-            // clear all fields
+        else if(request.readyState === 4 && request.status === 404){
             transaction_pair.value = '';
             transaction_position.value = '';
-            comment.value = 'Not found. Please check again';
+            comment.value = '';
             comment.disabled = true;
             update_button.disabled = true;
             delete_button.disabled = true;
             profit_r.value = null;
             transaction_date.value = '';
+            window.alert('Not found. Please check the index again');
         }
-//        else {
-//        }
     }
     request.send(null);
 }
@@ -62,13 +60,11 @@ function updateTransactionByID() {
     // Initialize new request
     let request = new XMLHttpRequest();
     var dataInput = {
-        "strategyName": strategy_name,
-        "transactionID": transaction_id.value,
         "newProfitR": profit_r.value,
         "newComment": comment.value
     }
     console.log(dataInput);
-    request.open('POST', '/update', true);
+    request.open('PUT', '/'+strategy_name+'/'+transaction_id.value, true);
     request.setRequestHeader("Content-Type", "application/json");
     request.onreadystatechange = function () {
         transaction_pair.value = '';
@@ -77,6 +73,9 @@ function updateTransactionByID() {
         profit_r.value = null;
         transactionID.value = null;
         transaction_date.value = '';
+        if(request.readyState === 4 && request.status === 200){
+            window.alert("Data updated successfully!");
+        }
     }
     // Add data to send with request
     let data = JSON.stringify(dataInput);
@@ -88,13 +87,8 @@ function updateTransactionByID() {
 function deleteTransactionByID() {
     let check = confirm("Really wanna delete it ???")
     if (check == true) {
-        // Initialize new request
-        var dataInput = {
-            "strategyName": strategy_name,
-            "transactionID": transaction_id.value
-        }
         let request = new XMLHttpRequest();
-        request.open('POST', '/delete', true);
+        request.open('DELETE', '/'+strategy_name+'/'+transaction_id.value, true);
         request.setRequestHeader("Content-Type", "application/json");
          request.onreadystatechange = function () {
             transaction_pair.value = '';
@@ -103,11 +97,12 @@ function deleteTransactionByID() {
             profit_r.value = null;
             transactionID.value = null;
             transaction_date.value = '';
+            if(request.readyState === 4 && request.status === 200){
+            window.alert("Data deleted successfully!");
+        }
          }
-        // Add data to send with request
-        let data = JSON.stringify(dataInput);
         // Send request
-        request.send(data);
+        request.send();
     }
     else {
         pass;

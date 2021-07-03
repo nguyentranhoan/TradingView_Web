@@ -1,59 +1,57 @@
-import datetime
+import sqlite3
+from sqlite3 import Error
+from datetime import datetime
+from main.response.momentum import Momentum
+from main.response.harmonic import Harmonic
+from main.response.swing_trading import SwingTrading
 
-from main.logic.strategy import get_strategy_data_from_db, write_data, create_report
-from main.logic.show_data import write_data_to_excel
-from main.logic.create_connection import create_connection, create_database
-from main.logic.from_db import get_data_from_db, transaction_by_id
+
+def create_connection():
+    """ create a database connection to the SQLite database
+        specified by db_file
+    :param database_url:
+    :param db_file: database file
+    :return: Connection object or None
+    """
+    # database = get_config()
+    conn = None
+    try:
+        conn = sqlite3.connect('/Users/macintoshhd/Desktop/Hoan/TradingView_Web/main/test.db')
+        return conn
+    except Error as e:
+        print(e)
+
+    return conn
+
 
 if __name__ == '__main__':
-    database_url = '.data/transaction.db'
-    conn = create_connection(database_url)
+    now = datetime.now()
+    conn = create_connection()
     cur = conn.cursor()
-    create_database(conn)
-    now = datetime.datetime.now()
+    index = 800
+    for i in range(20):
+        index += i
+        data = SwingTrading(datetime=f"{now}",
+                            year=now.year-i,
+                            month=now.month,
+                            day=now.day+i,
+                            time=f"{now.time()}",
+                            pair="PAIR2",
+                            position="Sell",
+                            four_hr_chart="link 1",
+                            pre_four_hr_chart="link 2",
+                            one_day_chart="link 3",
+                            one_week_chart="link 4",
+                            one_month_chart="link 5",
+                            profit_r=3,
+                            comments="this is my comment")
+        momentum_query = f"INSERT INTO momentum VALUES ({index}, '{data.datetime}',{data.year}, {data.month}, {data.day},'{data.time}', '{data.pair}', '{data.position}', '{data.four_hr_chart}', '{data.pre_four_hr_chart}',{data.profit_r}, '{data.comments}');"
+        cur.execute(momentum_query)
+        harmonic_query = f"INSERT INTO harmonic VALUES ({index}, '{data.datetime}',{data.year}, {data.month}, {data.day},'{data.time}','{data.pair}', '{data.position}','{data.four_hr_chart}', '{data.pre_four_hr_chart}',{data.profit_r},'{data.comments}');"
+        cur.execute(harmonic_query)
+        st_query = f"INSERT INTO swing_trading VALUES ({index}, '{data.datetime}', {data.year},{data.month}, {data.day},'{data.time}','{data.pair}', '{data.position}','{data.four_hr_chart}', '{data.pre_four_hr_chart}','{data.one_day_chart}','{data.one_week_chart}', '{data.one_month_chart}',{data.profit_r},'{data.comments}');"
+        cur.execute(st_query)
 
-    # for i in range(5):
-    #     transaction_data = {"DATE": now.date(),
-    #                         "YEAR": now.year-i,
-    #                         "MONTH": now.month+i,
-    #                         "DAY": now.day+i,
-    #                         "TIME": now.time(),
-    #                         "PAIR": "USDBTC",
-    #                         "POSITION": "buy",
-    #                         "1HR CHART": "LINK 4 HOURS",
-    #                         "15MIN CHART": "LINK PRE 4 HOURS",
-    #                         "PROFIT R": 1+i,
-    #                         "COMMENT": "strategy 2 comment"}
-    #
-    #     cur.execute(f"""INSERT INTO swing_trading VALUES (
-    #                     {transaction_data['DATE']},
-    #                     {transaction_data['YEAR']},
-    #                     {transaction_data['MONTH']},
-    #                     {transaction_data['DAY']},
-    #                     '{transaction_data['TIME']}',
-    #                     '{transaction_data['PAIR']}',
-    #                     '{transaction_data['POSITION']}',
-    #                     '{transaction_data['1HR CHART']}',
-    #                     '{transaction_data['15MIN CHART']}',
-    #                     '{transaction_data['1HR CHART']}',
-    #                     '{transaction_data['15MIN CHART']}',
-    #                     '{transaction_data['1HR CHART']}',
-    #                     {transaction_data['PROFIT R']},
-    #                     '{transaction_data["COMMENT"]}')""")
-    # conn.commit()
+        conn.commit()
 
-    # # write_data_to_excel(conn)
-    # # cur.execute("ALTER TABLE tradingview_data RENAME TO momentum")
-    # # conn.commit()
-    # # write_data_to_excel(conn, 'momentum')
-    # tem = get_strategy_data_from_db(conn, 'harmonic')
-    # print(tem)
-    # tem = cur.execute("select rowid from swing_trading").fetchall()
-    # for data in tem:
-    #     cur.execute(f"delete from swing_trading where rowid={data[0]}")
-    # conn.commit()
-    # create_report('swing_trading')
-    strategy_name = "swing_trading"
-    write_data(conn, strategy_name)
-    for data in cur.execute(f"select rowid, year, month, day, profit_r from {strategy_name}").fetchall():
-        print(data)
+    conn.close()
