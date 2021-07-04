@@ -76,11 +76,11 @@ function submit() {
     request.open('POST', '/'+strategy_name.textContent+'/submit', true);
     request.setRequestHeader("Content-Type", "application/json");
     request.onreadystatechange = function() {
-        if(request.readyState === 4 && request.status === 200){
+        if(request.readyState === 4 && request.status === 201){
             resetAll();
         }
-        else{
-            link_4_hours.value = 'Please check edit the screenshot and update this link. Something went wrong!';
+        else if(request.readyState === 4 && request.status === 500){
+            window.alert("Something went wrong!\nPlease check and submit again!");
         }
     }
     // Add data to send with request

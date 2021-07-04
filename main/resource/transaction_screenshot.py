@@ -27,7 +27,7 @@ class TransactionScreenshot(Resource):
     def post(cls, strategy_name: str):
         data_json = request.get_json()
 
-        screen_num = data_json['screen_num']
+        screen_num = int(data_json['screen_num'])
 
         output_filename = ROOT_FOLDER + f'{strategy_name}.png'
         with mss.mss() as mss_instance:

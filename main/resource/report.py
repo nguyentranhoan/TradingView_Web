@@ -3,7 +3,7 @@ import os
 import shutil
 
 from flask_restful import Resource
-from main import ROOT_FOLDER, ROOT_REPORT_FOLDER
+from main import ROOT_FOLDER, ROOT_REPORT_FOLDER, ROOT_FOLDER_WINDOWS
 
 
 class ReportCreation(Resource):
@@ -11,7 +11,7 @@ class ReportCreation(Resource):
     def get(cls):
         try:
             shutil.copytree(ROOT_FOLDER, ROOT_REPORT_FOLDER, dirs_exist_ok=True)
-            os.system(f"open {ROOT_REPORT_FOLDER}")
+            os.system(f"start {ROOT_FOLDER_WINDOWS}")
         except:
             return {"message": "Error copy file to report folder"}, 500
 

@@ -38,7 +38,6 @@ class SwingTradingService:
     @classmethod
     def write_data(cls):
         yearly_list = cls.get_transaction_by_day()
-        print(yearly_list)
         for i in range(len(yearly_list)):
             wbn = ROOT_FOLDER + STRATEGY_NAME + f"[{yearly_list[i]['year']}]" + USER_FILE_NAME
             workbook_name = xlsxwriter.Workbook(filename=wbn)
@@ -86,7 +85,6 @@ class SwingTradingService:
     @classmethod
     def write_data_by_pair(cls):
         yearly_list = cls.get_transaction_by_pair()
-        print(yearly_list)
         for i in range(len(yearly_list)):
             wbn = ROOT_FOLDER_BY_PAIR + STRATEGY_NAME + f"[{yearly_list[i]['year']}]" + USER_FILE_NAME
             workbook_name = xlsxwriter.Workbook(filename=wbn)
@@ -129,7 +127,6 @@ class SwingTradingService:
                     cls.decorate_sheet(worksheet_name, merge_start,
                                        merge_stop, value, cell_format, row_day)
             workbook_name.close()
-            print('done')
 
     @staticmethod
     def get_transaction_by_day():
@@ -150,7 +147,6 @@ class SwingTradingService:
                     daily_list.append(daily_data)
                     transactions = SwingTradingModel.get_daily_transaction(year=year[0], month=month[0], day=day[0])
                     for data in transactions:
-                        print(data)
                         transaction_data = {"INDEX": data.id,
                                             'TIME': data.time,
                                             'PAIR': data.pair,
@@ -185,7 +181,6 @@ class SwingTradingService:
                     monthly_data = {'month': month[0], 'transactions': transaction_list}
                     monthly_list.append(monthly_data)
                     transactions = SwingTradingModel.get_transaction_by_pair(year=year[0], month=month[0], pair=pair[0])
-                    print("transactions:", transactions)
                     for data in transactions:
                         transaction_data = {"INDEX": data.id,
                                             'TIME': data.time,

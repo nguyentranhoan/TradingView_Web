@@ -126,6 +126,7 @@ class ImageToText:
     def get_data(cls, strategy_name):
         image_url = DropBox.get_image_url(strategy_name)
         message = cls.__image_to_text__(image_url)
+        print("#########################\n", message, "\n$$$$$$$$$$$$$$$$$$$$$$$$")
         return (DataFromImage.get_datetime(message),
                 DataFromImage.get_ratio(message),
                 DataFromImage.get_position(message),
