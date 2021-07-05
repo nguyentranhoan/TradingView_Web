@@ -14,6 +14,7 @@ from main.resource.swing_trading import SwingTrading, SwingTradingPage, SwingTra
 from main.resource.transaction_screenshot import TransactionScreenshot
 from main.resource.update import UpdatePage
 from main.resource.welcome import WelcomePage
+from main.resource.migrate_data import MigrateData, WriteData
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
@@ -55,6 +56,8 @@ api.add_resource(SwingTrading, "/swing_trading/<int:_id>")
 api.add_resource(SwingTradingTransaction, "/swing_trading/submit")
 api.add_resource(TransactionScreenshot, "/screenshot/<string:strategy_name>")
 api.add_resource(ReportCreation, '/report')
+api.add_resource(MigrateData, '/migrate')
+api.add_resource(WriteData, '/write_data')
 
 db.init_app(app)
 
