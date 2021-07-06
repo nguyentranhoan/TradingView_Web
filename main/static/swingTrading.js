@@ -39,25 +39,30 @@ function takeAScreenshot() {
 
 
 function preview() {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/screenshot/'+strategy_name.textContent, true);
+    var request = new XMLHttpRequest();
+    request.open('GET', '/screenshot/'+strategy_name.textContent, true);
 
-    xhr.onload = function () {
+    request.onload = function () {
       // Request finished. Do processing here.
     };
 
-    xhr.send(null);
+    request.send(null);
 }
 
 function report() {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/report', true);
+    var request = new XMLHttpRequest();
+    request.open('GET', '/report', true);
 
-    xhr.onload = function () {
-      // Request finished. Do processing here.
+    request.onreadystatechange = function () {
+        if(request.readyState === 4 && request.status === 200){
+            window.alert("Report has been updated successfully!");
+        }
+        else if(request.readyState === 4 && request.status === 500){
+            window.alert("Please close all report files and click report again!");
+        }
     };
 
-    xhr.send(null);
+    request.send(null);
 }
 
 
