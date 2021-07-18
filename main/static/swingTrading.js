@@ -105,16 +105,22 @@ function submit() {
             comment.value = '';
         }
         
-        function getDataInput() {
-            var dataInput = {
-                "link4Hours": link_4_hours.value,
-                "linkPre4Hours": document.querySelector('#linkPre4Hours').value,
-                "link1Day": document.querySelector('#link1Day').value,
-                "link1Week": document.querySelector('#link1Week').value,
-                "link1Month": document.querySelector('#link1Month').value,
-                "profitR": profit_R,
-                "comment": comment.value
-            }
-            return dataInput;
+function getDataInput() 
+{
+    let priority;
+    let priority_comment = document.getElementsByName('priorityComment');
+    for(i=0; i < priority_comment.length; i++)
+    {
+        if(priority_comment[i].checked)
+        {
+            priority = priority_comment[i].value;
         }
-
+    }
+    let dataInput = {
+        "link1Hour": link_1_hour.value,
+        "link1Day": document.querySelector('#link1Day').value,
+        "profitR": profit_R,
+        "comment": priority + ": " + comment.value
+    }
+    return dataInput;
+}

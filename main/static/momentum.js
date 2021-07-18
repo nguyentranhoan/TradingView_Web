@@ -101,12 +101,22 @@ function submit() {
         comment.value = '';
     }
     
-    function getDataInput() {
-        var dataInput = {
-            "link15Mins": link_15_mins.value,
-            "link1Hour": document.querySelector('#link1Hour').value,
-            "profitR": profit_R,
-            "comment": comment.value
+function getDataInput() 
+{
+    let priority;
+    let priority_comment = document.getElementsByName('priorityComment');
+    for(i=0; i < priority_comment.length; i++)
+    {
+        if(priority_comment[i].checked)
+        {
+            priority = priority_comment[i].value;
         }
-        return dataInput;
     }
+    let dataInput = {
+        "link1Hour": link_1_hour.value,
+        "link1Day": document.querySelector('#link1Day').value,
+        "profitR": profit_R,
+        "comment": priority + ": " + comment.value
+    }
+    return dataInput;
+}

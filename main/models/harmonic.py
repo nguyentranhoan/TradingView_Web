@@ -41,6 +41,10 @@ class HarmonicModel(db.Model):
         return db.session.query(func.distinct(cls.pair)).filter_by(year=year).group_by(cls.pair).order_by(cls.pair.asc()).all()
 
     @classmethod
+    def get_distinct_pairs_by_month(cls, year: int, month: int) -> List:
+        return db.session.query(func.distinct(cls.pair)).filter_by(year=year, month=month).group_by(cls.pair).order_by(cls.pair.asc()).all()
+
+    @classmethod
     def get_distinct_days_by_month(cls, year: int, month: int) -> List:
         return db.session.query(func.distinct(cls.day)).filter_by(year=year, month=month).group_by(cls.day).order_by(
             cls.day.asc()).all()
@@ -57,6 +61,10 @@ class HarmonicModel(db.Model):
     @classmethod
     def get_transaction_by_pair(cls, year: int, month: int, pair: str) -> List:
         return cls.query.filter_by(year=year, month=month, pair=pair).order_by(cls.time.asc()).all()
+
+    @classmethod
+    def get_transaction_by_month(cls, year: int, month: int) -> List:
+        return cls.query.filter_by(year=year, month=month).order_by(cls.time.asc()).all()
 
     def save_to_db(self):
         db.session.add(self)

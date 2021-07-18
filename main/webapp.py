@@ -7,14 +7,21 @@ from marshmallow import ValidationError
 
 from main.db import db
 from main.ma import ma
-from main.resource.harmonic import Harmonic, HarmonicPage, HarmonicTransaction
-from main.resource.momentum import Momentum, MomentumPage, MomentumTransaction
-from main.resource.report import ReportCreation
-from main.resource.swing_trading import SwingTrading, SwingTradingPage, SwingTradingTransaction
-from main.resource.transaction_screenshot import TransactionScreenshot
-from main.resource.update import UpdatePage
+
 from main.resource.welcome import WelcomePage
-#from main.resource.migrate_data import MigrateData, WriteData
+from main.resource.update import UpdatePage
+from main.resource.delete import DeletionPage
+
+from main.resource.harmonic import (Harmonic, HarmonicPage,
+                                    HarmonicTransaction, HarmonicListByMonth,
+                                    HarmonicPairListByMonth)
+from main.resource.momentum import (Momentum, MomentumPage, MomentumTransaction,
+                                    MomentumListByMonth, MomentumPairListByMonth)
+from main.resource.report import ReportCreation
+from main.resource.screenshot import TransactionScreenshot
+from main.resource.swing_trading import (SwingTrading, SwingTradingPage,
+                                         SwingTradingTransaction, SwingTradingListByMonth,
+                                         SwingTradingPairListByMonth)
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
@@ -44,6 +51,7 @@ def handle_marshmallow_validation(err):
 jwt = JWTManager(app)
 
 api.add_resource(WelcomePage, "/")
+api.add_resource(DeletionPage, "/delete")
 api.add_resource(UpdatePage, "/update")
 api.add_resource(MomentumPage, "/momentum")
 api.add_resource(Momentum, "/momentum/<int:_id>")  # search, update, delete
@@ -56,8 +64,12 @@ api.add_resource(SwingTrading, "/swing_trading/<int:_id>")
 api.add_resource(SwingTradingTransaction, "/swing_trading/submit")
 api.add_resource(TransactionScreenshot, "/screenshot/<string:strategy_name>")
 api.add_resource(ReportCreation, '/report')
-#api.add_resource(MigrateData, '/migrate')
-#api.add_resource(WriteData, '/write_data')
+api.add_resource(MomentumListByMonth, '/momentum/<int:year>/<int:month>')
+api.add_resource(HarmonicListByMonth, '/harmonic/<int:year>/<int:month>')
+api.add_resource(SwingTradingListByMonth, '/swing_trading/<int:year>/<int:month>')
+api.add_resource(MomentumPairListByMonth, '/momentum/<int:year>/<int:month>/<string:pair>')
+api.add_resource(HarmonicPairListByMonth, '/harmonic/<int:year>/<int:month>/<string:pair>')
+api.add_resource(SwingTradingPairListByMonth, '/swing_trading/<int:year>/<int:month>/<string:pair>')
 
 db.init_app(app)
 

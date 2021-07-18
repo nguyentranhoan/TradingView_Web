@@ -103,12 +103,22 @@ function resetAll() {
     comment.value = '';
     }
 
-function getDataInput(strategy_name) {
+function getDataInput() 
+{
+    let priority;
+    let priority_comment = document.getElementsByName('priorityComment');
+    for(i=0; i < priority_comment.length; i++)
+    {
+        if(priority_comment[i].checked)
+        {
+            priority = priority_comment[i].value;
+        }
+    }
     let dataInput = {
         "link1Hour": link_1_hour.value,
         "link1Day": document.querySelector('#link1Day').value,
         "profitR": profit_R,
-        "comment": comment.value
+        "comment": priority + ": " + comment.value
     }
     return dataInput;
-    }
+}

@@ -38,6 +38,10 @@ class MomentumModel(db.Model):
         return db.session.query(func.distinct(cls.month)).filter_by(year=year).group_by(cls.month).order_by(cls.month.asc()).all()
 
     @classmethod
+    def get_distinct_pairs_by_month(cls, year: int, month: int) -> List:
+        return db.session.query(func.distinct(cls.pair)).filter_by(year=year, month=month).group_by(cls.pair).order_by(cls.pair.asc()).all()
+
+    @classmethod
     def get_distinct_pairs_by_year(cls, year: int) -> List:
         return db.session.query(func.distinct(cls.pair)).filter_by(year=year).group_by(cls.pair).order_by(cls.pair.asc()).all()
 
@@ -54,8 +58,16 @@ class MomentumModel(db.Model):
         return cls.query.filter_by(year=year, month=month, day=day).order_by(cls.time.asc()).all()
 
     @classmethod
+    def get_transaction_by_month(cls, year: int, month: int) -> List:
+        return cls.query.filter_by(year=year, month=month).order_by(cls.time.asc()).all()
+
+    @classmethod
     def get_transaction_by_pair(cls, year: int, month: int, pair: str) -> List:
         return cls.query.filter_by(year=year, month=month, pair=pair).order_by(cls.time.asc()).all()
+
+    @classmethod
+    def find_all(cls):
+        return cls.query.all()
 
     def save_to_db(self):
         db.session.add(self)
