@@ -130,5 +130,5 @@ dmypy.json
 
 # excel files
 *.xlsx
-
-.db
+*.png
+*.db

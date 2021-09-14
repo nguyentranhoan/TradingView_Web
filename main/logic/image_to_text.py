@@ -64,11 +64,9 @@ class DataFromImage:
     def get_pair(cls, message: str):
         pattern = r"chart(|.+)(.|\n)+Publish(.+)?(\n(.+)?){3}"
         shorten_message = re.search(pattern, message)
-        pattern_2 = r"\n[A-Z]{1,6}\S[^a-z]((\d{1,4})|\S)(([A-Z]+)|\d+)"
+        pattern_2 = r"\n[A-Z]{1,6}\S[^a-z]((\d{1,4})|\S)(([A-Z]+)|\d+|)"
         result = re.search(pattern_2, shorten_message.group(0))
-        if '<' in result.group(0):
-            correct_pair = result.group(0).replace('<', '')
-            return correct_pair.strip()
+
         return result.group(0).strip()
 
     @classmethod
