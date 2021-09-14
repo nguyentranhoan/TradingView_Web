@@ -5,6 +5,8 @@ from datetime import datetime
 from main.logic.momentum import MomentumService
 from main.schemas.momentum import MomentumSchema
 from main.response.momentum import Momentum
+from main.models.momentum import MomentumModel
+
 
 momentum_schema = MomentumSchema()
 
@@ -57,3 +59,23 @@ class WriteData(Resource):
             MomentumService.write_data_by_pair()
         except:
             return {"message": "ERROR_MAKING_FILE"}, 500
+
+
+class PairService(Resource):
+    @classmethod
+    def get(cls):
+        momentum1 = MomentumModel.find_by_id(617)
+        momentum2 = MomentumModel.find_by_id(618)
+        momentum = MomentumModel.find_all()
+        x = 0
+        if momentum:
+            for item in momentum:
+                print("pair:", item.pair, "length:", len(item.pair))
+                item.pair = item.pair.strip()
+                item.save_to_db()
+                x += 1
+            print("x:", x)
+            print("########", "1:", ord(momentum1.pair[1]), "2:", ord(momentum2.pair[1]), "compare: ", (momentum1.pair[1].capitalize() == momentum2.pair[1].capitalize()))
+
+            return "done", 200
+        return {"message": "error"}, 404

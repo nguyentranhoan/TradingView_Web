@@ -72,6 +72,7 @@ class Harmonic(Resource):
         if harmonic:
             harmonic.profit_r = harmonic_json["newProfitR"]
             harmonic.comments = harmonic_json["newComment"]
+            harmonic.pair     = harmonic_json["newPair"]
 
             harmonic.save_to_db()
             RewriteData.write_to_report()

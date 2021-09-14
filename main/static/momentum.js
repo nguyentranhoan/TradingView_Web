@@ -7,7 +7,8 @@ let profit_R;
 let screen_no;
 let link_15_mins =  document.querySelector('#link15Mins');
 
-link_15_mins.onfocus = takeAScreenshot;
+
+link_15_mins.oninput = takeAScreenshot;
 
 submit_button.onclick = submit;
 preview_button.onclick = preview;
@@ -66,6 +67,8 @@ function report() {
 
 
 function submit() {
+    submit_button.disabled = true;
+
     // Get ratio value
     let profit = document.getElementsByName('riskRewardRatio');
     for(i=0; i < profit.length; i++){
@@ -80,11 +83,22 @@ function submit() {
     request.open('POST', '/'+strategy_name.textContent+'/submit', true);
     request.setRequestHeader("Content-Type", "application/json");
     request.onreadystatechange = function() {
+        submit_button.disabled = false;
+
         if(request.readyState === 4 && request.status === 201){
+            let responseData = JSON.parse(request.response);
+            document.querySelector("#currentID").value = responseData.id;
             resetAll();
         }
-        else if(request.readyState === 4 && request.status === 500){
-            window.alert("Something went wrong!\nPlease check and submit again!");
+        else if(request.readyState === 4 && request.status != 201){
+            let mp3_url = 'http://commondatastorage.googleapis.com/codeskulptor-demos/pyman_assets/theygotcha.ogg';
+
+            let audio = new Audio(mp3_url);
+            audio.play();
+            audio.onended = function() {
+                            submit_button.disabled = false;
+                            window.alert("Please check edit the screenshot and update this link.\nSomething went wrong!");
+                            }
         }
     }
     // Add data to send with request
@@ -113,8 +127,8 @@ function getDataInput()
         }
     }
     let dataInput = {
-        "link1Hour": link_1_hour.value,
-        "link1Day": document.querySelector('#link1Day').value,
+        "link15Mins": link_15_mins.value,
+        "link1Hour": document.querySelector('#link1Hour').value,
         "profitR": profit_R,
         "comment": priority + ": " + comment.value
     }

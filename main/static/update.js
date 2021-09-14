@@ -39,6 +39,7 @@ function searchTransactionByID() {
             delete_button.disabled = false;
             comment.disabled = false;
             update_button.disabled = false;
+            transaction_pair.disabled = false;
         }
         else if(request.readyState === 4 && request.status === 404){
             transaction_pair.value = '';
@@ -61,7 +62,8 @@ function updateTransactionByID() {
     let request = new XMLHttpRequest();
     var dataInput = {
         "newProfitR": profit_r.value,
-        "newComment": comment.value
+        "newComment": comment.value,
+        "newPair"   : transaction_pair.value
     }
     console.log(dataInput);
     request.open('PUT', '/'+strategy_name+'/'+transaction_id.value, true);

@@ -64,11 +64,11 @@ class DataFromImage:
     def get_pair(cls, message: str):
         pattern = r"chart(|.+)(.|\n)+Publish(.+)?(\n(.+)?){3}"
         shorten_message = re.search(pattern, message)
-        pattern_2 = r"\n[A-Z]([A-Z]+)?(\d+)?(([A-Z]+)|\d+|)(<|\n)"
+        pattern_2 = r"\n[A-Z]{1,6}\S[^a-z]((\d{1,4})|\S)(([A-Z]+)|\d+)"
         result = re.search(pattern_2, shorten_message.group(0))
         if '<' in result.group(0):
             correct_pair = result.group(0).replace('<', '')
-            return correct_pair
+            return correct_pair.strip()
         return result.group(0).strip()
 
     @classmethod
@@ -76,12 +76,9 @@ class DataFromImage:
         pattern_profit_r = r'R.+R.+R.+:.+'
         r = re.search(pattern_profit_r, message)
         try:
-            rr = re.search(r'\d+(.?)(\d{0,5}?)', r.group(0))
+            rr = re.search(r'([0-9]*[.])?[0-9]+', r.group(0))
         except AttributeError as e:
             return e
-        if '<' in rr.group(0):
-            ratio = rr.group(0).replace('<', '')
-            return float(ratio)
         return float(rr.group(0))
 
     @classmethod
@@ -126,7 +123,7 @@ class ImageToText:
     def get_data(cls, strategy_name):
         image_url = DropBox.get_image_url(strategy_name)
         message = cls.__image_to_text__(image_url)
-        print("#########################\n", message, "\n$$$$$$$$$$$$$$$$$$$$$$$$")
+        print(message)
         return (DataFromImage.get_datetime(message),
                 DataFromImage.get_ratio(message),
                 DataFromImage.get_position(message),

@@ -71,6 +71,7 @@ class SwingTrading(Resource):
         if swing_trading:
             swing_trading.profit_r = swing_trading_json["newProfitR"]
             swing_trading.comments = swing_trading_json["newComment"]
+            swing_trading.pair     = swing_trading_json["newPair"]
 
             swing_trading.save_to_db()
             RewriteData.write_to_report()

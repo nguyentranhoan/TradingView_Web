@@ -30,7 +30,9 @@ class MomentumTransaction(Resource):
     @classmethod
     def post(cls):
         momentum_json = request.get_json()
+        print(momentum_json)
         data = MomentumResponse.get_momentum_data(momentum_json)
+
         momentum = momentum_schema.load(data)
 
         try:
@@ -70,6 +72,7 @@ class Momentum(Resource):
         if momentum:
             momentum.profit_r = momentum_json["newProfitR"]
             momentum.comments = momentum_json["newComment"]
+            momentum.pair = momentum_json["newPair"]
 
             momentum.save_to_db()
             RewriteData.write_to_report()

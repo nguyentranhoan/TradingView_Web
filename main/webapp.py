@@ -11,7 +11,7 @@ from main.ma import ma
 from main.resource.welcome import WelcomePage
 from main.resource.update import UpdatePage
 from main.resource.delete import DeletionPage
-
+from main.resource.migrate_data import WriteData, PairService
 from main.resource.harmonic import (Harmonic, HarmonicPage,
                                     HarmonicTransaction, HarmonicListByMonth,
                                     HarmonicPairListByMonth)
@@ -22,6 +22,7 @@ from main.resource.screenshot import TransactionScreenshot
 from main.resource.swing_trading import (SwingTrading, SwingTradingPage,
                                          SwingTradingTransaction, SwingTradingListByMonth,
                                          SwingTradingPairListByMonth)
+
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
@@ -70,6 +71,9 @@ api.add_resource(SwingTradingListByMonth, '/swing_trading/<int:year>/<int:month>
 api.add_resource(MomentumPairListByMonth, '/momentum/<int:year>/<int:month>/<string:pair>')
 api.add_resource(HarmonicPairListByMonth, '/harmonic/<int:year>/<int:month>/<string:pair>')
 api.add_resource(SwingTradingPairListByMonth, '/swing_trading/<int:year>/<int:month>/<string:pair>')
+api.add_resource(WriteData, '/write_data')
+api.add_resource(PairService, '/pair_correction')
+
 
 db.init_app(app)
 
