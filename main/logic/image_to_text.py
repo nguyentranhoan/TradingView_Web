@@ -64,7 +64,7 @@ class DataFromImage:
     def get_pair(cls, message: str):
         pattern = r"chart(|.+)(.|\n)+Publish(.+)?(\n(.+)?){3}"
         shorten_message = re.search(pattern, message)
-        pattern_2 = r"\n[A-Z]{1,6}\S[^a-z]((\d{1,4})|\S)(([A-Z]+)|\d+|)"
+        pattern_2 = r"\n[A-Z]{2}([A-Z]|\d|\S)(|\S)([A-Z]+|\d+|\n)"
         result = re.search(pattern_2, shorten_message.group(0))
 
         return result.group(0).strip()
