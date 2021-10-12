@@ -1,1 +1,6 @@
-from . import data_from_img, from_db, image_to_text, screenshot, show_data, transaction_data, up_down_dropbox
+USER_FILE_NAME = "[HuyNguyen]-TradingView.xlsx"
+STRATEGY_NAME = "momentum/"
+ROOT_FOLDER = "main/.data/"
+ROOT_REPORT_FOLDER = "main/report/"
+ROOT_FOLDER_BY_PAIR = "main/.data/byPair/"
+ROOT_REPORT_FOLDER_BY_PAIR = "main/report/byPair/"

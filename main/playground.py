@@ -1,29 +1,16 @@
-# from main.services.logic.from_db import get_data_from_db
-# from services.logic.show_data import create_report, open_report_file
-#
-# if __name__ == '__main__':
-#     from models.create_connection import create_connection
-#     database_url = '.data/transaction.db'
-#     conn = create_connection(database_url)
-#     data = {
-#         'link15Min': 'this is 15min link',
-#         'link1Hour': 'this is 1hour link',
-#         'comment': 'this is the comment',
-#         'profitR': 1
-#     }
-#     # store_data_db(data)
-#     print(get_data_from_db(conn))
-import os
+import sqlite3
+import pandas as pd
 
-from views import create_database, conn
-database_url = '.data/transaction.db'
+DATABASE_URL = "C:/Users/Nguye/Documents/GitHub/TradingView_Web/main/test.db" #'C:/Users/HP/Desktop/TradingView_Web/main/.data'
 
-print(os.path.exists(database_url))
-create_database(conn)
+if __name__ == '__main__':
+    conn = sqlite3.connect(DATABASE_URL)
+    # save sqlite table in a DataFrame
+    momentum = pd.read_sql('SELECT * from momentum', conn)
+    # write DataFrame to CSV file
+    momentum.to_csv('C:/Users/Nguye/Documents/GitHub/TradingView_Web/main/.data/momentum.csv', index=False)
+    
 
-if not os.path.exists(database_url):
-    create_database(conn)
-    print('')
-
-
-print("aaaaaa")
+    """
+    REMEMBER TO ADJUST momentum.csv file FORMAT BEFORE MIGRATING TO NEW DATABASE.
+    """

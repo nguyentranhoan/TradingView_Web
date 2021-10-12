@@ -8,8 +8,91 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <script type = "text/javascript" src="static/jquery.js" defer></script>
-    <script type = "text/javascript" src="static/scripts1.js" defer></script>
+    <!-- <script type = "text/javascript" src="static/strategy.js" defer></script> -->
+    {% block script %}{% endblock %}
     <title>[Huy Nguyen] TradingView</title>
   </head>
-  {% block body %}{% endblock %}
+  <body>
+    <nav class="nav">
+      <a class="nav-link active" aria-current="page" href="/momentum">Momentum</a>
+      <a class="nav-link" href="/harmonic">Harmonic</a>
+      <a class="nav-link" href="/swing_trading">Swing Trading</a>
+      <a class="nav-link" href="/update">Update</a>
+      <a class="nav-link" href="/delete">Deletion</a>
+    </nav>
+    {% block body %}{% endblock %}
+    <div class="row g-3">
+
+     <div class="col-md-6">
+        <div class="col-md-6">
+            <label class="form-label d-block">PRIORITY</label>
+            <div class="form-check form-check-inline">
+                <input class="form-check-screen" type="radio" name="priorityComment" id="priorityI" value="1">
+                <label class="form-check-label" for="priorityI">1</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-screen" type="radio" name="priorityComment" id="priorityII" value="2" >
+                <label class="form-check-label" for="priorityII">2</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-screen" type="radio" name="priorityComment" id="priorityIII" value="3">
+                <label class="form-check-label" for="priorityIIi">3</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-screen" type="radio" name="priorityComment" id="priorityIV" value="4" >
+                <label class="form-check-label" for="priorityIV">4</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-screen" type="radio" name="priorityComment" id="priorityNone" value="0" checked>
+                <label class="form-check-label" for="priorityNone">None</label>
+            </div>
+        </div>
+        <div class="form-floating">
+            <textarea class="form-control" placeholder="Leave a comment here" id="comments" style="height: 100px"></textarea>
+            <label for="comments">Comments</label>
+          </div>
+    </div>
+    <div class="col-md-6">
+        <div class="col-md-6">
+            <label class="form-label d-block">Risk Reward Ratio</label>
+            <div class="form-check form-check-inline">
+                <input class="form-check-profit" type="radio" name="riskRewardRatio" id="zero" value="0">
+                <label class="form-check-label" for="zero">0</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-profit" type="radio" name="riskRewardRatio" id="minusOne" value="-1">
+                <label class="form-check-label" for="minusOne">-1</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-profit" type="radio" name="riskRewardRatio" id="another" value="1" checked>
+                <label class="form-check-label" for="another">another</label>
+            </div>
+    </div>
+        <div class="col-md-6">
+            <label class="form-label d-block">TradingView Screen</label>
+            <div class="form-check form-check-inline">
+                <input class="form-check-screen" type="radio" name="tradingViewScreen" id="screen-1" value="1">
+                <label class="form-check-label" for="screen-1">1</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-screen" type="radio" name="tradingViewScreen" id="screen-2" value="2" checked>
+                <label class="form-check-label" for="screen-2">2</label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <button type="button" class="btn btn-info" id="previewButton">preview</button>
+    </div>
+    <div class="col-md-2">
+        <button type="button" class="btn btn-info" id="reportButton">report</button>
+    </div>
+    </div>
+    <br>
+    <div class="col-12">
+      <button class="btn btn-primary" id='submitInput'>Submit</button>
+      <label for="currentID" style="margin-left:40px">Current Index</label>
+      <input type="text" id="currentID" disabled=True value="">
+    </div>
+    </div>
+  </body>
 </html>
