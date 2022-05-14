@@ -71,11 +71,10 @@ class PairService(Resource):
         if momentum:
             for item in momentum:
                 print("pair:", item.pair, "length:", len(item.pair))
-                item.pair = item.pair.strip()
+                if "<b" in item.pair:
+                    print("pair:", item.pair, "length:", len(item.pair))
+                    item.pair = item.pair.replace("<b", "")
                 item.save_to_db()
-                x += 1
-            print("x:", x)
-            print("########", "1:", ord(momentum1.pair[1]), "2:", ord(momentum2.pair[1]), "compare: ", (momentum1.pair[1].capitalize() == momentum2.pair[1].capitalize()))
 
             return "done", 200
         return {"message": "error"}, 404
