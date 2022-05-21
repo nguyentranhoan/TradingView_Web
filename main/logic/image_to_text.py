@@ -3,6 +3,10 @@ import requests
 from main.logic.from_dropbox import DropBox
 from datetime import datetime
 import re
+import os
+import io
+from google.cloud import vision
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "main/credentials.json"
 
 KEY = ['b9b5df32f8msh948aa3b15534102p1ad977jsn6e47a84b40d3',
        '7ae890b37fmshe9523cf53d7b361p187537jsn61635bf55d64',
@@ -64,10 +68,12 @@ class DataFromImage:
     def get_pair(cls, message: str):
         pattern = r"chart(|.+)(.|\n)+Publish(.+)?(\n(.+)?){3}"
         shorten_message = re.search(pattern, message)
-        pattern_2 = r"\n[A-Z]{2}([A-Z]|\d|\S)(|\S)([A-Z]+|\d+|\n)"
-        result = re.search(pattern_2, shorten_message.group(0))
-
-        return result.group(0).strip()
+        pattern_2 = r"\n(. |)[A-Z]{2}([A-Z]|\d|\S)(|\S)([A-Z]+|\d+|\n)"
+        expected = re.search(pattern_2, shorten_message.group(0))
+        result = expected.group(0).strip()
+        if " " in result:
+            result = result[2:]
+        return result.strip()
 
     @classmethod
     def get_ratio(cls, message: str):
@@ -117,10 +123,37 @@ class ImageToText:
             else:
                 return response.text
 
+    @staticmethod
+    def detect_text(path):
+        message = ""
+        client = vision.ImageAnnotatorClient()
+
+        with io.open(path, 'rb') as image_file:
+            content = image_file.read()
+
+        image = vision.Image(content=content)
+
+        response = client.text_detection(image=image)
+        # print("\n######\n", response, "\n#######\n")
+        texts = response.text_annotations
+        # print(texts, "\n#####\n")
+        for text in texts:
+            # print('\n"{}"'.format(text.description))
+            message += "\n" + text.description
+
+        if response.error.message:
+            raise Exception(
+                '{}\nFor more info on error messages, check: '
+                'https://cloud.google.com/apis/design/errors'.format(
+                    response.error.message))
+        return message
+
+
     @classmethod
     def get_data(cls, strategy_name):
-        image_url = DropBox.get_image_url(strategy_name)
-        message = cls.__image_to_text__(image_url)
+        # image_url = DropBox.get_image_url(strategy_name)
+        img_path = "main/static/images/" + strategy_name + ".png"
+        message = cls.detect_text(img_path)
         print(message)
         return (DataFromImage.get_datetime(message),
                 DataFromImage.get_ratio(message),
