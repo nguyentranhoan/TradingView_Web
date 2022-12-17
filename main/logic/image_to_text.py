@@ -54,7 +54,8 @@ class DataFromImage:
 
     @classmethod
     def get_datetime(cls, message: str):
-        pattern = r"""\S\d\s[a-zA-Z]+\s('|"?)\d+\s\d+(:)\d+"""
+        # pattern = r"""\S\d\s[a-zA-Z]+\s('|"?)\d+\s\d+(:)\d+"""
+        pattern = r"""\d{2}\s[a-zA-Z]+\s('|"?)\d{2}.\d+(:)\d+"""
         tem = re.search(pattern, message)
         try:
             date_time_str = str(tem.group(0))
