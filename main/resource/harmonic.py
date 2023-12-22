@@ -23,8 +23,8 @@ class RewriteData:
         try:
             HarmonicService.write_data()
             HarmonicService.write_data_by_pair()
-        except:
-            return {"message": ERROR_MAKING_FILE}, 500
+        except Exception as e:
+            return {"message": ERROR_MAKING_FILE}, e, 500
 
 
 class HarmonicTransaction(Resource):
@@ -38,8 +38,8 @@ class HarmonicTransaction(Resource):
         try:
             harmonic.save_to_db()
             RewriteData.write_to_report()
-        except:
-            return {"message": ERROR_INSERTING}, 500
+        except Exception as e:
+            return {"message": ERROR_INSERTING}, e, 500
 
         return harmonic_schema.dump(harmonic), 201
 
@@ -72,7 +72,7 @@ class Harmonic(Resource):
         if harmonic:
             harmonic.profit_r = harmonic_json["newProfitR"]
             harmonic.comments = harmonic_json["newComment"]
-            harmonic.pair     = harmonic_json["newPair"]
+            harmonic.pair = harmonic_json["newPair"]
 
             harmonic.save_to_db()
             RewriteData.write_to_report()
@@ -100,7 +100,8 @@ class HarmonicPairListByMonth(Resource):
 
     @classmethod
     def delete(cls, year: int, month: int, pair: str):
-        harmonic_list = HarmonicModel.get_transaction_by_pair(year=year, month=month, pair=pair)
+        harmonic_list = HarmonicModel.get_transaction_by_pair(
+            year=year, month=month, pair=pair)
         if harmonic_list:
             for harmonic in harmonic_list:
                 harmonic.delete_from_db()
@@ -112,12 +113,14 @@ class HarmonicPairListByMonth(Resource):
 class HarmonicListByMonth(Resource):
     @classmethod
     def get(cls, year: int, month: int):
-        pairs = HarmonicModel.get_distinct_pairs_by_month(year=year, month=month)
+        pairs = HarmonicModel.get_distinct_pairs_by_month(
+            year=year, month=month)
         return [pair[0] for pair in pairs]
 
     @classmethod
     def delete(cls, year: int, month: int):
-        harmonic_list = HarmonicModel.get_transaction_by_month(year=year, month=month)
+        harmonic_list = HarmonicModel.get_transaction_by_month(
+            year=year, month=month)
         if harmonic_list:
             for harmonic in harmonic_list:
                 harmonic.delete_from_db()

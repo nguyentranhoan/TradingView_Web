@@ -34,9 +34,11 @@ class TransactionScreenshot(Resource):
             try:
                 monitor = mss_instance.monitors[screen_num]
             except IndexError:
-                return {"message": "screen number is out of range"}, 500
+                return {"message": "screen number is out of range"}, IndexError, 500
             screenshot = mss_instance.grab(monitor)
-            img = Image.frombytes("RGB", screenshot.size, screenshot.bgra, "raw", "BGRX")  # Convert to PIL.Image
+            # Convert to PIL.Image
+            img = Image.frombytes("RGB", screenshot.size,
+                                  screenshot.bgra, "raw", "BGRX")
             try:
                 img.save(output_filename, "PNG")  # Save the image
             except FileNotFoundError:

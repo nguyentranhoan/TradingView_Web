@@ -1,4 +1,4 @@
-class SwingTrading(object):
+class Strategy4Links(object):
     datetime: str
     year: int
     month: int
@@ -7,7 +7,7 @@ class SwingTrading(object):
     pair: str
     position: str
     four_hr_chart: str
-    pre_four_hr_chart: str
+    strategy: str
     one_day_chart: str
     one_week_chart: str
     one_month_chart: str
@@ -23,7 +23,7 @@ class SwingTrading(object):
                  pair: str,
                  position: str,
                  four_hr_chart: str,
-                 pre_four_hr_chart: str,
+                 strategy: str,
                  one_day_chart: str,
                  one_week_chart: str,
                  one_month_chart: str,
@@ -37,7 +37,7 @@ class SwingTrading(object):
         self.pair = pair
         self.position = position
         self.four_hr_chart = four_hr_chart
-        self.pre_four_hr_chart = pre_four_hr_chart
+        self.strategy = strategy
         self.one_day_chart = one_day_chart
         self.one_week_chart = one_week_chart
         self.one_month_chart = one_month_chart

@@ -47,8 +47,8 @@ class MigrateData(Resource):
 
             try:
                 momentum.save_to_db()
-            except:
-                return {"message": "ERROR_INSERTING"}, 500
+            except Exception as e:
+                return {"message": "ERROR_INSERTING"}, e, 500
 
 
 class WriteData(Resource):
@@ -57,8 +57,8 @@ class WriteData(Resource):
         try:
             MomentumService.write_data()
             MomentumService.write_data_by_pair()
-        except:
-            return {"message": "ERROR_MAKING_FILE"}, 500
+        except Exception as e:
+            return {"message": "ERROR_MAKING_FILE"}, e, 500
 
 
 class PairService(Resource):

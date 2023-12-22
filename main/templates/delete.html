@@ -1,55 +1,109 @@
-{% extends 'base_alter_data.html' %}
+{% extends 'base_alter_data.html' %} {% block body %}
+<div class="h1">Deletion</div>
+<div class="col">
+  <label class="form-label d-block">Strategy</label>
+  <div class="form-check form-check-inline">
+    <input
+      class="form-check-profit"
+      type="radio"
+      name="strategyRadio"
+      id="scapling"
+      value="scapling"
+    />
+    <label class="form-check-label" for="scapling">Scapling</label>
+  </div>
+  <div class="form-check form-check-inline">
+    <input
+      class="form-check-profit"
+      type="radio"
+      name="strategyRadio"
+      id="momentum"
+      value="momentum"
+      checked
+    />
+    <label class="form-check-label" for="momentum">Momentum</label>
+  </div>
+  <div class="form-check form-check-inline">
+    <input
+      class="form-check-profit"
+      type="radio"
+      name="strategyRadio"
+      id="harmonic"
+      value="harmonic"
+    />
+    <label class="form-check-label" for="harmonic">Harmonic</label>
+  </div>
+  <div class="form-check form-check-inline">
+    <input
+      class="form-check-screen"
+      type="radio"
+      name="strategyRadio"
+      id="weeklyICI"
+      value="weekly_ici"
+    />
+    <label class="form-check-label" for="weeklyICI">Weekly ICI</label>
+  </div>
+  <div class="form-check form-check-inline">
+    <input
+      class="form-check-screen"
+      type="radio"
+      name="strategyRadio"
+      id="weeklyMW"
+      value="weekly_mw"
+    />
+    <label class="form-check-label" for="weeklyMW">Weekly MW</label>
+  </div>
+  <div class="form-check form-check-inline">
+    <input
+      class="form-check-screen"
+      type="radio"
+      name="strategyRadio"
+      id="dailyICI"
+      value="daily_ici"
+      checked
+    />
+    <label class="form-check-label" for="dailyICI">Daily ICI</label>
+  </div>
+</div>
 
-{% block body %}
-<div class="h1">
-  Deletion
-</div>    <div class="col">
-        <label class="form-label d-block">Strategy</label>
-        <div class="form-check form-check-inline">
-            <input class="form-check-profit" type="radio" name="strategyRadio" id="momentum" value="momentum" checked>
-            <label class="form-check-label" for="momentum">Momentum</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-profit" type="radio" name="strategyRadio" id="harmonic" value="harmonic">
-            <label class="form-check-label" for="harmonic">Harmonic</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-profit" type="radio" name="strategyRadio" id="swingTrading" value="swing_trading">
-            <label class="form-check-label" for="swingTrading">Swing Trading</label>
-        </div>
-    </div>
+<div class="form-check">
+  <input class="form-check-input" type="checkbox" value="" id="enabledPair" />
+  <label class="form-check-label" for="enabledPair"> Delete by Pair </label>
+</div>
 
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" value="" id="enabledPair">
-      <label class="form-check-label" for="enabledPair">
-        Delete by Pair
-      </label>
-    </div>
+<div class="row">
+  <div class="col">
+    <label for="chosenDate" class="form-label">DATE</label>
+    <input class="form-select" type="month" id="chosenDate" />
+  </div>
+  <div class="col">
+    <label for="selectPair" class="form-label">Pair</label>
+    <select
+      class="form-select"
+      aria-label=".form-select-sm example"
+      id="selectPair"
+    ></select>
+  </div>
+</div>
+<div class="col" style="margin-top: 33px">
+  <button class="btn btn-warning" type="button" id="deleteButton">
+    Delete
+  </button>
+</div>
+<!-- Optional JavaScript; choose one of the two! -->
 
-    <div class="row">
-      <div class="col">
-            <label for="chosenDate" class="form-label">DATE</label>
-            <input class="form-select" type="month" id="chosenDate">
-      </div>
-      <div class="col">
-        <label for="selectPair" class="form-label">Pair</label>
-        <select class="form-select" aria-label=".form-select-sm example" id="selectPair">
-        </select>
-      </div>
-    </div>
-    <div class="col" style="margin-top:33px">
-        <button class="btn btn-warning" type="button" id="deleteButton">Delete</button>
-      </div>
-    <!-- Optional JavaScript; choose one of the two! -->
+{% block script%}
+<script type="text/javascript" src="static/delete.js" defer></script>
+{% endblock %}
+<!-- Option 1: Bootstrap Bundle with Popper -->
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+  crossorigin="anonymous"
+></script>
 
-    {% block script%}
-        <script type = "text/javascript" src="static/delete.js" defer></script>
-    {% endblock %}
-    <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-    <!-- Option 2: Separate Popper and Bootstrap JS -->
-    <!--
+<!-- Option 2: Separate Popper and Bootstrap JS -->
+<!--
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
     -->

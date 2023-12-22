@@ -1,71 +1,148 @@
-{% extends 'base_alter_data.html' %}
-
-{% block script%}
-    <script type = "text/javascript" src="static/update.js" defer></script>
-{% endblock %}
-
-{% block body %}
-<div class="h1">
-  Update
-</div>
+{% extends 'base_alter_data.html' %} {% block script%}
+<script type="text/javascript" src="static/update.js" defer></script>
+{% endblock %} {% block body %}
+<div class="h1">Update</div>
 <div class="col-md-6">
-        <div class="col-md-6">
-            <label class="form-label d-block">Strategy</label>
-            <div class="form-check form-check-inline">
-                <input class="form-check-profit" type="radio" name="strategyRadio" id="momentum" value="momentum" checked>
-                <label class="form-check-label" for="momentum">Momentum</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-profit" type="radio" name="strategyRadio" id="harmonic" value="harmonic">
-                <label class="form-check-label" for="harmonic">Harmonic</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-profit" type="radio" name="strategyRadio" id="swingTrading" value="swing_trading">
-                <label class="form-check-label" for="swingTrading">Swing Trading</label>
-            </div>
+  <div class="col-md-6">
+    <label class="form-label d-block">Strategy</label>
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-profit"
+        type="radio"
+        name="strategyRadio"
+        id="scapling"
+        value="scapling"
+      />
+      <label class="form-check-label" for="scapling">Scapling</label>
     </div>
-    <div class="row g-3 col-md-6">
-        <div class="input-group">
-            <input type="number" class="form-control" placeholder="Enter transaction's ID" id="transactionID">
-            <button class="btn btn-primary" type="button" id="searchButton">Search</button>
-            <button class="btn btn-outline-secondary" type="button" id="deleteButton">Delete</button>
-          </div>
-          <div>
-            <div class="col-md-6">
-              <label for="transactionDate" class="form-label">Transaction date</label>
-              <input type="text" class="form-control" id="transactionDate" disabled=True>
-            </div>
-            <div class="col-md-6">
-              <label for="transactionPosition" class="form-label">Position</label>
-              <input type="text" class="form-control" id="transactionPosition" disabled=True>
-            </div>
-            <div class="col-md-6">
-              <label for="transactionPair" class="form-label">Pair</label>
-              <input type="text" class="form-control" id="transactionPair" disabled=True>
-            </div>
-          </div>
-        <div class="col-md-6" >
-            <div class="col-md-6">
-                <label for="transactionRatio" class="form-label">Ratio</label>
-                <input type="number" class="form-control" id="transactionRatio">
-            </div>
-            <div class="form-floating">
-                <textarea class="form-control" placeholder="Leave a comment here" id="transactionComment" style="height: 100px"></textarea>
-                <label for="transactionComment">Comments</label>
-              </div>
-        </div>
-        </div>
-        <div class="col-12">
-          <button class="btn btn-primary" id="updateButton">Update</button>
-        </div>
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-profit"
+        type="radio"
+        name="strategyRadio"
+        id="momentum"
+        value="momentum"
+        checked
+      />
+      <label class="form-check-label" for="momentum">Momentum</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-profit"
+        type="radio"
+        name="strategyRadio"
+        id="harmonic"
+        value="harmonic"
+      />
+      <label class="form-check-label" for="harmonic">Harmonic</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-screen"
+        type="radio"
+        name="strategyRadio"
+        id="weeklyICI"
+        value="weekly_ici"
+      />
+      <label class="form-check-label" for="weeklyICI">Weekly ICI</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-screen"
+        type="radio"
+        name="strategyRadio"
+        id="weeklyMW"
+        value="weekly_mw"
+      />
+      <label class="form-check-label" for="weeklyMW">Weekly MW</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-screen"
+        type="radio"
+        name="strategyRadio"
+        id="dailyICI"
+        value="daily_ici"
+        checked
+      />
+      <label class="form-check-label" for="dailyICI">Daily ICI</label>
+    </div>
+  </div>
+  <div class="row g-3 col-md-6">
+    <div class="input-group">
+      <input
+        type="number"
+        class="form-control"
+        placeholder="Enter transaction's ID"
+        id="transactionID"
+      />
+      <button class="btn btn-primary" type="button" id="searchButton">
+        Search
+      </button>
+      <button class="btn btn-outline-secondary" type="button" id="deleteButton">
+        Delete
+      </button>
+    </div>
+    <div>
+      <div class="col-md-6">
+        <label for="transactionDate" class="form-label">Transaction date</label>
+        <input
+          type="text"
+          class="form-control"
+          id="transactionDate"
+          disabled="True"
+        />
       </div>
-    <!-- Optional JavaScript; choose one of the two! -->
+      <div class="col-md-6">
+        <label for="transactionPosition" class="form-label">Position</label>
+        <input
+          type="text"
+          class="form-control"
+          id="transactionPosition"
+          disabled="True"
+        />
+      </div>
+      <div class="col-md-6">
+        <label for="transactionPair" class="form-label">Pair</label>
+        <input
+          type="text"
+          class="form-control"
+          id="transactionPair"
+          disabled="True"
+        />
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="col-md-6">
+        <label for="transactionRatio" class="form-label">Ratio</label>
+        <input type="number" class="form-control" id="transactionRatio" />
+      </div>
+      <div class="form-floating">
+        <textarea
+          class="form-control"
+          placeholder="Leave a comment here"
+          id="transactionComment"
+          style="height: 100px"
+        ></textarea>
+        <label for="transactionComment">Comments</label>
+      </div>
+    </div>
+  </div>
+  <div class="col-12">
+    <button class="btn btn-primary" id="updateButton">Update</button>
+  </div>
+</div>
+<!-- Optional JavaScript; choose one of the two! -->
 
-    <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+<!-- Option 1: Bootstrap Bundle with Popper -->
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+  crossorigin="anonymous"
+></script>
 
-    <!-- Option 2: Separate Popper and Bootstrap JS -->
-    <!--
+<!-- Option 2: Separate Popper and Bootstrap JS -->
+<!--
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js" integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js" integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script>
     -->

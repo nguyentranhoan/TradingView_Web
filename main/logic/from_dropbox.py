@@ -23,8 +23,10 @@ class DropBox:
 
     @staticmethod
     def __upload_image(dbx, strategy_name):
-        file_from = LOCAL_IMAGE_ROOT_PATH + f'/{strategy_name}.png'  # local file path
-        file_to = DROPBOX_TradingViewStorage_ROOT_PATH + f'/{strategy_name}.png'  # dropbox path
+        file_from = LOCAL_IMAGE_ROOT_PATH + \
+            f'/{strategy_name}.png'  # local file path
+        file_to = DROPBOX_TradingViewStorage_ROOT_PATH + \
+            f'/{strategy_name}.png'  # dropbox path
         f = open(file_from, 'rb')
         dbx.files_upload(f.read(), file_to, mode=files.WriteMode.overwrite)
 
@@ -32,7 +34,8 @@ class DropBox:
     def get_image_url(cls, strategy_name):
         dbx = cls.__get_access()
         cls.__upload_image(dbx, strategy_name)
-        tem = dbx.files_get_temporary_link(DROPBOX_TradingViewStorage_ROOT_PATH + f'/{strategy_name}.png')
+        tem = dbx.files_get_temporary_link(
+            DROPBOX_TradingViewStorage_ROOT_PATH + f'/{strategy_name}.png')
         return tem.link
 
     # end of file

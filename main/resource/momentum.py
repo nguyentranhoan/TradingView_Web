@@ -22,8 +22,8 @@ class RewriteData:
         try:
             MomentumService.write_data()
             MomentumService.write_data_by_pair()
-        except:
-            return {"message": ERROR_MAKING_FILE}, 500
+        except Exception as e:
+            return {"message": ERROR_MAKING_FILE}, e, 500
 
 
 class MomentumTransaction(Resource):
@@ -38,8 +38,8 @@ class MomentumTransaction(Resource):
         try:
             momentum.save_to_db()
             RewriteData.write_to_report()
-        except:
-            return {"message": ERROR_INSERTING}, 500
+        except Exception as e:
+            return {"message": ERROR_INSERTING}, e, 500
 
         return momentum_schema.dump(momentum), 201
 
@@ -100,7 +100,8 @@ class MomentumPairListByMonth(Resource):
 
     @classmethod
     def delete(cls, year: int, month: int, pair: str):
-        momentum_list = MomentumModel.get_transaction_by_pair(year=year, month=month, pair=pair)
+        momentum_list = MomentumModel.get_transaction_by_pair(
+            year=year, month=month, pair=pair)
         if momentum_list:
             for momentum in momentum_list:
                 momentum.delete_from_db()
@@ -112,12 +113,14 @@ class MomentumPairListByMonth(Resource):
 class MomentumListByMonth(Resource):
     @classmethod
     def get(cls, year: int, month: int):
-        pairs = MomentumModel.get_distinct_pairs_by_month(year=year, month=month)
+        pairs = MomentumModel.get_distinct_pairs_by_month(
+            year=year, month=month)
         return [pair[0] for pair in pairs]
 
     @classmethod
     def delete(cls, year: int, month: int):
-        momentum_list = MomentumModel.get_transaction_by_month(year=year, month=month)
+        momentum_list = MomentumModel.get_transaction_by_month(
+            year=year, month=month)
         if momentum_list:
             for momentum in momentum_list:
                 momentum.delete_from_db()

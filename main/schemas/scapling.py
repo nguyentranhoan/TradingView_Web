@@ -1,10 +1,10 @@
 from main.ma import ma
-from main.models.swing_trading import SwingTradingModel
+from main.models.scapling import ScaplingModel
 
 
-class SwingTradingSchema(ma.SQLAlchemyAutoSchema):
+class ScaplingSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
-        model = SwingTradingModel
+        model = ScaplingModel
         # load_only = ("store",)
         dump_only = ("id",)
         # include_fk = True
