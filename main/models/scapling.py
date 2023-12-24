@@ -5,8 +5,8 @@ from main.db import db
 from sqlalchemy import func, distinct
 
 
-class SwingTradingModel(db.Model):
-    __tablename__ = 'swing_trading'
+class ScaplingModel(db.Model):
+    __tablename__ = 'scapling'
 
     id = db.Column(db.Integer, primary_key=True)
     datetime = db.Column(db.String(100), nullable=False)
@@ -16,16 +16,12 @@ class SwingTradingModel(db.Model):
     time = db.Column(db.String(50), nullable=False)
     pair = db.Column(db.String(50), nullable=False)
     position = db.Column(db.String(50), nullable=False)
-    four_hr_chart = db.Column(db.String(255), nullable=False)
-    pre_four_hr_chart = db.Column(db.String(255), nullable=False)
-    one_day_chart = db.Column(db.String(255), nullable=False)
-    one_week_chart = db.Column(db.String(255), nullable=False)
-    one_month_chart = db.Column(db.String(255), nullable=False)
-    profit_r = db.Column(db.Float(precision=2))
+    fifteen_min_chart = db.Column(db.String(255), nullable=False)
+    profit_r = db.Column(db.Float(precision=2), nullable=False)
     comments = db.Column(db.String(255))
 
     @classmethod
-    def find_by_id(cls, _id) -> "SwingTradingModel":
+    def find_by_id(cls, _id) -> "ScaplingModel":
         return cls.query.filter_by(id=_id).first()
 
     @classmethod
@@ -67,6 +63,10 @@ class SwingTradingModel(db.Model):
     @classmethod
     def get_transaction_by_pair(cls, year: int, month: int, pair: str) -> List:
         return cls.query.filter_by(year=year, month=month, pair=pair).order_by(cls.time.asc()).all()
+
+    @classmethod
+    def find_all(cls):
+        return cls.query.all()
 
     def save_to_db(self):
         db.session.add(self)

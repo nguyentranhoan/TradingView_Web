@@ -1,0 +1,71 @@
+{% extends 'base.html' %} {% block script%}
+<script type="text/javascript" src="static/strategy4Links.js" defer></script>
+{% endblock %} {% block body %}
+<h1>Strategy 4 Links</h1>
+<div class="col-md-6">
+  <!-- <label class="form-label d-block">Strategy</label> -->
+  <div class="form-check form-check-inline">
+    <input
+      class="form-check-screen"
+      type="radio"
+      name="strategyName"
+      id="weeklyICI"
+      value="weekly_ici"
+    />
+    <label class="form-check-label" for="weeklyICI">Weekly ICI</label>
+  </div>
+  <div class="form-check form-check-inline">
+    <input
+      class="form-check-screen"
+      type="radio"
+      name="strategyName"
+      id="weeklyMW"
+      value="weekly_mw"
+    />
+    <label class="form-check-label" for="weeklyMW">Weekly MW</label>
+  </div>
+  <div class="form-check form-check-inline">
+    <input
+      class="form-check-screen"
+      type="radio"
+      name="strategyName"
+      id="dailyICI"
+      value="daily_ici"
+      checked
+    />
+    <label class="form-check-label" for="dailyICI">Daily ICI</label>
+  </div>
+</div>
+<div class="row g-3">
+  <div class="col-md-6">
+    <label for="link4Hours" class="form-label">Link 4-Hour</label>
+    <input type="url" class="form-control" id="link4Hours" />
+  </div>
+  <div class="col-md-6">
+    <label for="link1Day" class="form-label">Link 1-Day</label>
+    <input type="url" class="form-control" id="link1Day" />
+  </div>
+  <div class="col-md-6">
+    <label for="link1Week" class="form-label">Link 1-Week</label>
+    <input type="url" class="form-control" id="link1Week" />
+  </div>
+  <div class="col-md-6">
+    <label for="link1Month" class="form-label">Link 1-Month</label>
+    <input type="url" class="form-control" id="link1Month" />
+  </div>
+</div>
+<!-- Optional JavaScript; choose one of the two! -->
+
+<!-- Option 1: Bootstrap Bundle with Popper -->
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+  crossorigin="anonymous"
+></script>
+
+<!-- Option 2: Separate Popper and Bootstrap JS -->
+<!--
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js" integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js" integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script>
+-->
+{% endblock %}

@@ -49,9 +49,9 @@ class UserRegister(Resource):
         # except MailGunException as e:
         #     user.delete_from_db()  # rollback
         #     return {"message": str(e)}, 500
-        except:  # failed to save user to db
+        except Exception as e:  # failed to save user to db
             traceback.print_exc()
-            return {"message": FAILED_TO_CREATE}, 500
+            return {"message": FAILED_TO_CREATE}, e, 500
 
 
 class User(Resource):
@@ -84,7 +84,8 @@ class UserLogin(Resource):
 
         if user and safe_str_cmp(user_data.password, user.password):
             if user.activated:
-                access_token = create_access_token(identity=user.id, fresh=True)
+                access_token = create_access_token(
+                    identity=user.id, fresh=True)
                 refresh_token = create_refresh_token(user.id)
                 return (
                     {"access_token": access_token, "refresh_token": refresh_token},
@@ -124,7 +125,8 @@ class UserConfirm(Resource):
         # return redirect("http://localhost:3000/", code=302)  # redirect if we have a separate web app
         headers = {"Content-Type": "text/html"}
         return make_response(
-            render_template("confirmation_page.html", email=user.email), 200, headers
+            render_template("confirmation_page.html",
+                            email=user.email), 200, headers
         )
 
     # end of file

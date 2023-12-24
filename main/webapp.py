@@ -1,5 +1,4 @@
 import os
-
 from flask import Flask, jsonify
 from flask_jwt_extended import JWTManager
 from flask_restful import Api
@@ -17,11 +16,13 @@ from main.resource.harmonic import (Harmonic, HarmonicPage,
                                     HarmonicPairListByMonth)
 from main.resource.momentum import (Momentum, MomentumPage, MomentumTransaction,
                                     MomentumListByMonth, MomentumPairListByMonth)
+from main.resource.scapling import (Scapling, ScaplingPage, ScaplingTransaction,
+                                    ScaplingListByMonth, ScaplingPairListByMonth)
 from main.resource.report import ReportCreation
 from main.resource.screenshot import TransactionScreenshot
-from main.resource.swing_trading import (SwingTrading, SwingTradingPage,
-                                         SwingTradingTransaction, SwingTradingListByMonth,
-                                         SwingTradingPairListByMonth)
+from main.resource.strategy_4links import (Strategy4Links, Strategy4LinksPage,
+                                           Strategy4LinksTransaction, Strategy4LinksListByMonth,
+                                           Strategy4LinksPairListByMonth)
 
 
 app = Flask(__name__)
@@ -54,31 +55,44 @@ jwt = JWTManager(app)
 api.add_resource(WelcomePage, "/")
 api.add_resource(DeletionPage, "/delete")
 api.add_resource(UpdatePage, "/update")
+api.add_resource(WriteData, '/write_data')
+api.add_resource(PairService, '/pair_correction')
+api.add_resource(TransactionScreenshot, "/screenshot/<string:strategy_name>")
+api.add_resource(ReportCreation, '/report')
+
+api.add_resource(ScaplingPage, "/scapling")
+api.add_resource(Scapling, "/scapling/<int:_id>")  # search, update, delete
+api.add_resource(ScaplingTransaction, "/scapling/submit")  # add new
+api.add_resource(ScaplingListByMonth, '/scapling/<int:year>/<int:month>')
+api.add_resource(ScaplingPairListByMonth,
+                 '/scapling/<int:year>/<int:month>/<string:pair>')
+
 api.add_resource(MomentumPage, "/momentum")
 api.add_resource(Momentum, "/momentum/<int:_id>")  # search, update, delete
 api.add_resource(MomentumTransaction, "/momentum/submit")  # add new
+api.add_resource(MomentumListByMonth, '/momentum/<int:year>/<int:month>')
+api.add_resource(MomentumPairListByMonth,
+                 '/momentum/<int:year>/<int:month>/<string:pair>')
+
 api.add_resource(HarmonicPage, "/harmonic")
 api.add_resource(Harmonic, "/harmonic/<int:_id>")
 api.add_resource(HarmonicTransaction, "/harmonic/submit")
-api.add_resource(SwingTradingPage, "/swing_trading")
-api.add_resource(SwingTrading, "/swing_trading/<int:_id>")
-api.add_resource(SwingTradingTransaction, "/swing_trading/submit")
-api.add_resource(TransactionScreenshot, "/screenshot/<string:strategy_name>")
-api.add_resource(ReportCreation, '/report')
-api.add_resource(MomentumListByMonth, '/momentum/<int:year>/<int:month>')
 api.add_resource(HarmonicListByMonth, '/harmonic/<int:year>/<int:month>')
-api.add_resource(SwingTradingListByMonth, '/swing_trading/<int:year>/<int:month>')
-api.add_resource(MomentumPairListByMonth, '/momentum/<int:year>/<int:month>/<string:pair>')
-api.add_resource(HarmonicPairListByMonth, '/harmonic/<int:year>/<int:month>/<string:pair>')
-api.add_resource(SwingTradingPairListByMonth, '/swing_trading/<int:year>/<int:month>/<string:pair>')
-api.add_resource(WriteData, '/write_data')
-api.add_resource(PairService, '/pair_correction')
+api.add_resource(HarmonicPairListByMonth,
+                 '/harmonic/<int:year>/<int:month>/<string:pair>')
+
+api.add_resource(Strategy4LinksPage, "/strategy_4links")
+api.add_resource(Strategy4Links, "/<string:strategy>/<int:_id>")
+api.add_resource(Strategy4LinksTransaction, "/<string:strategy>/submit")
+api.add_resource(Strategy4LinksListByMonth,
+                 '/<string:strategy>/<int:year>/<int:month>')
+api.add_resource(Strategy4LinksPairListByMonth,
+                 '/<string:strategy>/<int:year>/<int:month>/<string:pair>')
 
 
 db.init_app(app)
 
 if __name__ == "__main__":
-
     ma.init_app(app)
     app.run(port=5000, debug=True)
 

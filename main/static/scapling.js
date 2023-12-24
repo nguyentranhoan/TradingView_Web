@@ -122,7 +122,6 @@ function getDataInput() {
   }
   let dataInput = {
     link15Mins: link_15_mins.value,
-    link1Hour: document.querySelector("#link1Hour").value,
     profitR: profit_R,
     comment: priority + ": " + comment.value,
   };

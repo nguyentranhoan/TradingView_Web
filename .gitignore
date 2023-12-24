@@ -129,7 +129,9 @@ dmypy.json
 .pyre/
 
 # excel files
-*.xlsx
-*.png
+*xlsx
+*png
 *.db
 credentials.json
+*DS_Store
+*.idea

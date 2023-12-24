@@ -11,7 +11,9 @@ class FromScreenshot:
         with mss.mss() as mss_instance:
             monitor = mss_instance.monitors[screen_num]
             screenshot = mss_instance.grab(monitor)
-            img = Image.frombytes("RGB", screenshot.size, screenshot.bgra, "raw", "BGRX")  # Convert to PIL.Image
+            # Convert to PIL.Image
+            img = Image.frombytes("RGB", screenshot.size,
+                                  screenshot.bgra, "raw", "BGRX")
             img.save(output_filename, "PNG")  # Save the image
 
     @classmethod

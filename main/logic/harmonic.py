@@ -17,7 +17,8 @@ class HarmonicService:
     def write_data(cls):
         yearly_list = cls.get_transaction_by_day()
         for i in range(len(yearly_list)):
-            wbn = ROOT_FOLDER + STRATEGY_NAME + f"[{yearly_list[i]['year']}]" + USER_FILE_NAME
+            wbn = ROOT_FOLDER + STRATEGY_NAME + \
+                f"[{yearly_list[i]['year']}]" + USER_FILE_NAME
             workbook_name = xlsxwriter.Workbook(filename=wbn)
             cell_format = ExcelFormat.format_sheet(workbook_name)
             for j in range(len(yearly_list[i]["months"])):
@@ -33,15 +34,19 @@ class HarmonicService:
                 worksheet_name.write_row(0, 0, row_names, cell_format)
                 for k in range(len(yearly_list[i]["months"][j]["days"])):
                     row_day = [yearly_list[i]["months"][j]["days"][k]["day"], ]
-                    worksheet_name.write_row(row_num + 1, 0, row_day, cell_format)
+                    worksheet_name.write_row(
+                        row_num + 1, 0, row_day, cell_format)
                     value = 0
                     for h in range(len(yearly_list[i]["months"][j]["days"][k]["transactions"])):
                         value += yearly_list[i]["months"][j]["days"][k]["transactions"][h]['PROFIT R']
                         merge_start = row_num + 2 - h
-                        merge_stop = row_num + 1 - h + len(yearly_list[i]["months"][j]["days"][k]["transactions"])
+                        merge_stop = row_num + 1 - h + \
+                            len(yearly_list[i]["months"][j]
+                                ["days"][k]["transactions"])
                         # function call
                         comments = yearly_list[i]["months"][j]["days"][k]["transactions"][h]['COMMENTS']
-                        comment, priority = CommentExtraction.get_comment(comments)
+                        comment, priority = CommentExtraction.get_comment(
+                            comments)
                         comment = CommentExtraction.alter_comment(comment)
                         data = [yearly_list[i]["months"][j]["days"][k]["transactions"][h]['PAIR'],
                                 yearly_list[i]["months"][j]["days"][k]["transactions"][h]['TIME'],
@@ -63,7 +68,8 @@ class HarmonicService:
     def write_data_by_pair(cls):
         yearly_list = cls.get_transaction_by_pair()
         for i in range(len(yearly_list)):
-            wbn = ROOT_FOLDER_BY_PAIR + STRATEGY_NAME + f"[{yearly_list[i]['year']}]" + USER_FILE_NAME
+            wbn = ROOT_FOLDER_BY_PAIR + STRATEGY_NAME + \
+                f"[{yearly_list[i]['year']}]" + USER_FILE_NAME
             workbook_name = xlsxwriter.Workbook(filename=wbn)
             cell_format = ExcelFormat.format_sheet(workbook_name)
             for j in range(len(yearly_list[i]["pairs"])):
@@ -78,16 +84,21 @@ class HarmonicService:
                              'COMMENTS', "PRIORITY", 'ID', 'SUM']
                 worksheet_name.write_row(0, 0, row_names, cell_format)
                 for k in range(len(yearly_list[i]["pairs"][j]["months"])):
-                    row_day = [yearly_list[i]["pairs"][j]["months"][k]["month"], ]
-                    worksheet_name.write_row(row_num + 1, 0, row_day, cell_format)
+                    row_day = [yearly_list[i]["pairs"]
+                               [j]["months"][k]["month"], ]
+                    worksheet_name.write_row(
+                        row_num + 1, 0, row_day, cell_format)
                     value = 0
                     for h in range(len(yearly_list[i]["pairs"][j]["months"][k]["transactions"])):
                         value += yearly_list[i]["pairs"][j]["months"][k]["transactions"][h]['PROFIT R']
                         merge_start = row_num + 2 - h
-                        merge_stop = row_num + 1 - h + len(yearly_list[i]["pairs"][j]["months"][k]["transactions"])
+                        merge_stop = row_num + 1 - h + \
+                            len(yearly_list[i]["pairs"][j]
+                                ["months"][k]["transactions"])
                         # function call
                         comments = yearly_list[i]["pairs"][j]["months"][k]["transactions"][h]['COMMENTS']
-                        comment, priority = CommentExtraction.get_comment(comments)
+                        comment, priority = CommentExtraction.get_comment(
+                            comments)
                         comment = CommentExtraction.alter_comment(comment)
                         data = [yearly_list[i]["pairs"][j]["months"][k]["transactions"][h]['DAY'],
                                 yearly_list[i]["pairs"][j]["months"][k]["transactions"][h]['TIME'],
@@ -117,12 +128,15 @@ class HarmonicService:
                 daily_list = []
                 monthly_data = {'month': month[0], 'days': daily_list}
                 monthly_list.append(monthly_data)
-                days = HarmonicModel.get_distinct_days_by_month(year=year[0], month=month[0])
+                days = HarmonicModel.get_distinct_days_by_month(
+                    year=year[0], month=month[0])
                 for day in days:
                     transaction_list = []
-                    daily_data = {'day': day[0], 'transactions': transaction_list}
+                    daily_data = {'day': day[0],
+                                  'transactions': transaction_list}
                     daily_list.append(daily_data)
-                    transactions = HarmonicModel.get_daily_transaction(year=year[0], month=month[0], day=day[0])
+                    transactions = HarmonicModel.get_daily_transaction(
+                        year=year[0], month=month[0], day=day[0])
                     for data in transactions:
                         transaction_data = {"INDEX": data.id,
                                             'TIME': data.time,
@@ -149,12 +163,15 @@ class HarmonicService:
                 monthly_list = []
                 pair_data = {'pair': pair[0], 'months': monthly_list}
                 pair_list.append(pair_data)
-                months = HarmonicModel.get_distinct_months_by_pair(year=year[0], pair=pair[0])
+                months = HarmonicModel.get_distinct_months_by_pair(
+                    year=year[0], pair=pair[0])
                 for month in months:
                     transaction_list = []
-                    monthly_data = {'month': month[0], 'transactions': transaction_list}
+                    monthly_data = {
+                        'month': month[0], 'transactions': transaction_list}
                     monthly_list.append(monthly_data)
-                    transactions = HarmonicModel.get_transaction_by_pair(year=year[0], month=month[0], pair=pair[0])
+                    transactions = HarmonicModel.get_transaction_by_pair(
+                        year=year[0], month=month[0], pair=pair[0])
                     for data in transactions:
                         transaction_data = {"INDEX": data.id,
                                             'TIME': data.time,
@@ -175,7 +192,8 @@ class HarmonicResponse:
     def get_harmonic_data(cls, data: json):
         transaction_datetime, transaction_ratio, transaction_position, transaction_pair = ImageToText.get_data(
             'harmonic')
-        chosen_data_ratio = ProfitRatio.get_chosen_ratio(data, transaction_ratio)
+        chosen_data_ratio = ProfitRatio.get_chosen_ratio(
+            data, transaction_ratio)
         time = f"{transaction_datetime.hour}:{transaction_datetime.minute}"
         data = Harmonic(datetime=f"{transaction_datetime}",
                         year=transaction_datetime.year,
