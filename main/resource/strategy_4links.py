@@ -30,7 +30,7 @@ class Strategy4LinksTransaction(Resource):
     @classmethod
     def post(cls, strategy: str):
         strategy_4links_json = request.get_json()
-        data = Strategy4LinksResponse.get_strategy_4links_data(
+        data = Strategy4LinksResponse.get_strategy_4links_data(strategy, 
             strategy_4links_json)
         strategy_4links = strategy_4links_schema.load(data)
         try:
@@ -46,7 +46,7 @@ class Strategy4LinksTransaction(Resource):
 class Strategy4Links(Resource):
     @classmethod
     def get(cls, strategy: str, _id: int):
-        strategy_4links = Strategy4LinksModel.find_by_id(_id)
+        strategy_4links = Strategy4LinksModel.find_by_id(_id, strategy)
         if strategy_4links:
             return strategy_4links_schema.dump(strategy_4links), 200
 
@@ -55,7 +55,7 @@ class Strategy4Links(Resource):
     @classmethod
     # @jwt_required
     def delete(cls, strategy: str, _id: str):
-        strategy_4links = Strategy4LinksModel.find_by_id(_id)
+        strategy_4links = Strategy4LinksModel.find_by_id(_id, strategy)
         if strategy_4links:
             strategy_4links.delete_from_db()
             RewriteData.write_to_report(strategy)
@@ -66,7 +66,7 @@ class Strategy4Links(Resource):
     @classmethod
     def put(cls, strategy: str, _id: str):
         strategy_4links_json = request.get_json()
-        strategy_4links = Strategy4LinksModel.find_by_id(_id)
+        strategy_4links = Strategy4LinksModel.find_by_id(_id, strategy)
 
         if strategy_4links:
             strategy_4links.profit_r = strategy_4links_json["newProfitR"]

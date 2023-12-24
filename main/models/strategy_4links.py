@@ -25,8 +25,8 @@ class Strategy4LinksModel(db.Model):
     comments = db.Column(db.String(255))
 
     @classmethod
-    def find_by_id(cls, _id) -> "Strategy4LinksModel":
-        return cls.query.filter_by(id=_id).first()
+    def find_by_id(cls, _id, strategy) -> "Strategy4LinksModel":
+        return cls.query.filter_by(id=_id, strategy=strategy).first()
 
     @classmethod
     def get_distinct_years(cls, strategy: str) -> List:

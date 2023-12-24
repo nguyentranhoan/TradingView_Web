@@ -203,9 +203,9 @@ class Strategy4LinksService:
 
 class Strategy4LinksResponse:
     @classmethod
-    def get_strategy_4links_data(cls, data: json):
+    def get_strategy_4links_data(cls, strategy: str, data: json):
         transaction_datetime, transaction_ratio, transaction_position, transaction_pair = ImageToText.get_data(
-            'strategy_4links')
+            strategy)
         chosen_data_ratio = ProfitRatio.get_chosen_ratio(
             data, transaction_ratio)
         time = f"{transaction_datetime.hour}:{transaction_datetime.minute}"
