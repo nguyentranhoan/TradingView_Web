@@ -37,6 +37,7 @@ class ExcelFormat:
     def decorate_sheet_strategy_4links(worksheet_name, merge_start, merge_stop, value, cell_format, row_day):
         worksheet_name.set_column('E:I', 35)
         worksheet_name.set_column('K:K', 30)
+        worksheet_name.set_column('F:F', None, None, {'hidden': 1})
         if merge_start == merge_stop:
             worksheet_name.write(f'N{merge_start}', value, cell_format)
         else:
